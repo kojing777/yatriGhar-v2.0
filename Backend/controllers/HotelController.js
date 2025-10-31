@@ -23,7 +23,8 @@ export const registerHotel = async (req, res) => {
             city,
         });
 
-        await User.findByIdAndUpdate(owner, { role: { role: "hotelOwner" } });
+    // role is a string in the User schema, set it to the literal value
+    await User.findByIdAndUpdate(owner, { role: "hotelOwner" });
 
 
         res.status(201).json({ message: "Hotel registered successfully" });

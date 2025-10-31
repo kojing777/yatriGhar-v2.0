@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 const HotelReg = () => {
   // This component is used to register a hotel
 
-  const { setShowHotelReg, setIsOwner, axios, getToken } = useAppContext();
+  const { setShowHotelReg, setIsOwner, axios, getToken, fetchUser } = useAppContext();
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");
   const [address, setAddress] = useState("");
@@ -25,7 +25,8 @@ const HotelReg = () => {
           toast.error(data.message || "Registration failed.");
         } else {
           toast.success(data.message || "Hotel registered successfully.");
-          setIsOwner(true);
+          // Re-fetch user from backend so client state (role) matches DB
+          await fetchUser();
           setShowHotelReg(false);
         }
     } catch (error) {
