@@ -18,16 +18,16 @@ connectCloudinary();
 
 const app = express();
 app.use(cors());
-app.use(express.json());
-
-// Clerk middleware
-app.use(express.json());
-app.use(clerkMiddleware());
-
-// Clerk webhooks route
+// Clerk webhooks route - must run before any body parsers so we can verify raw bytes
 // Clerk webhooks: use raw body parser for the webhook route so signature verification
 // is done against the exact bytes received (svix requires the raw payload).
 app.post('/api/clerk', express.raw({ type: 'application/json' }), clerkWebhooks);
+
+// Parse JSON for all other routes
+app.use(express.json());
+
+// Clerk middleware
+app.use(clerkMiddleware());
 
 app.get('/', (req, res) => 
   res.send('Backend connected successfully!')
