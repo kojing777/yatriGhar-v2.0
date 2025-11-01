@@ -36,11 +36,11 @@ const Navbar = () => {
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
   const { openSignIn } = useClerk();
-  const { user } = useUser();
   const location = useLocation();
 
-  const { navigate, isOwner, setShowHotelReg } = useAppContext();
+  const { user, navigate, isOwner, setShowHotelReg } = useAppContext();
 
   useEffect(() => {
     if (location.pathname !== "/") {
@@ -112,7 +112,7 @@ const Navbar = () => {
             {isOwner ? "Dashboard" : "List your hotel"}
           </button>
         )}
-        
+
         {/* Demo Mode - Direct Access to Owner Dashboard */}
         {/* <button
           onClick={() => navigate("/owner")}

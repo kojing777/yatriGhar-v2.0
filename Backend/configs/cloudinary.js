@@ -9,4 +9,3 @@ const connectCloudinary = () => {
 };
 
 export default connectCloudinary;
-

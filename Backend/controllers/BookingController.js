@@ -10,7 +10,7 @@ const checkAvailability = async (checkInDate, checkOutDate, room) => {
             checkInDate: { $lte: checkOutDate },
             checkOutDate: { $gte: checkInDate }
         });
-        bookings.length = bookings.length === 0;
+        isAvailable = bookings.length === 0;
         return isAvailable;
 
     } catch (error) {
@@ -24,7 +24,7 @@ export const checkAvailabilityApi = async (req, res) => {
 
     try {
         const { room, checkInDate, checkOutDate } = req.body;
-        const isAvailable = await checkAvailability(checkInDate, checkOutDate, room);
+        const isAvailable = await checkAvailability({checkInDate, checkOutDate, room});
         res.status(200).json({ success: true, isAvailable });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
@@ -41,7 +41,7 @@ export const createBooking = async (req, res) => {
         const user = req.user._id;
 
         //before booking check availability
-        const isAvailable = await checkAvailability(checkInDate, checkOutDate, room);
+        const isAvailable = await checkAvailability({checkInDate, checkOutDate, room});
         
         if (!isAvailable) {
             return res.status(400).json({ success: false, message: "Room is not available" });

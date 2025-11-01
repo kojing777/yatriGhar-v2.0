@@ -4,7 +4,7 @@ import { useUser, useAuth } from "@clerk/clerk-react";
 import { toast } from "react-hot-toast";
 import { roomsDummyData } from "../assets/assets";
 import axios from "axios";
-
+  
 axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
 
 const AppContext = createContext();
@@ -15,7 +15,7 @@ export const AppProvider = ({ children }) => {
   const location = useLocation();
   const { user } = useUser();
   const { getToken } = useAuth();
-
+  
   const [isOwner, setIsOwner] = useState(false);
   const [showHotelReg, setShowHotelReg] = useState(false);
   const [searchedCities, setSearchedCities] = useState([

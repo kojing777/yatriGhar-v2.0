@@ -6,7 +6,6 @@ import Room from "../models/Room.js";
 export const createRoom = async (req, res) => {
     try {
         const { roomType, pricePerNight, amenities, } = req.body;
-
         const hotel = await Hotel.findById({ owner: req.auth.userId });
 
         if (!hotel) {
@@ -19,12 +18,12 @@ export const createRoom = async (req, res) => {
             return response.secure_url;
         });
 
-        const images = await Promise.all(uploadedImages);
+        const images = await Promise.all(uploadImages);
         await Room.create({
             hotel: hotel._id,
             roomType,
             pricePerNight: +pricePerNight,
-            amenities,
+            amenities: JSON.parse(amenities),
             images,
         });
 
