@@ -6,8 +6,7 @@ import toast from "react-hot-toast";
 const HotelReg = () => {
   // This component is used to register a hotel
 
-  const { setShowHotelReg, setIsOwner, axios, getToken } =
-    useAppContext();
+  const { setShowHotelReg, setIsOwner, axios, getToken } = useAppContext();
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");
   const [address, setAddress] = useState("");
