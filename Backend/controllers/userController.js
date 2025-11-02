@@ -1,5 +1,7 @@
 export const getUserData = async (req, res) => {
     try {
+        if (!req.user) return res.status(401).json({ success: false, message: 'Unauthorized' });
+
         const role = req.user.role;
         const recentSearchedCities = req.user.recentSearchedCities;
         res.json({ success: true, role, recentSearchedCities });
@@ -12,7 +14,10 @@ export const getUserData = async (req, res) => {
 export const storeRecentSearchedCities = async (req, res) => {
     try {
         const { recentSearchedCity } = req.body;
-        const user = await req.user;
+        const user = req.user;
+        if (!user) return res.status(401).json({ success: false, message: 'Unauthorized' });
+
+        if (!user.recentSearchedCities) user.recentSearchedCities = [];
 
         if (user.recentSearchedCities.length < 3) {
             user.recentSearchedCities.push(recentSearchedCity);

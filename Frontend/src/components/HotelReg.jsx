@@ -6,7 +6,8 @@ import toast from "react-hot-toast";
 const HotelReg = () => {
   // This component is used to register a hotel
 
-  const { setShowHotelReg, setIsOwner, axios, getToken, fetchUser } = useAppContext();
+  const { setShowHotelReg, setIsOwner, axios, getToken, fetchUser } =
+    useAppContext();
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");
   const [address, setAddress] = useState("");
@@ -18,20 +19,16 @@ const HotelReg = () => {
       const { data } = await axios.post(
         `/api/hotels`,
         { name, contact, address, city },
-        { headers: { Authorization: `Bearer ${await getToken()}` } });
-
-        // backend returns { message: '...' } on success and { success: false, message: '...' } on error
-        if (data && data.success === false) {
-          toast.error(data.message || "Registration failed.");
-        } else {
-          toast.success(data.message || "Hotel registered successfully.");
-          // Re-fetch user from backend so client state (role) matches DB
-          await fetchUser();
-          setShowHotelReg(false);
-        }
+        { headers: { Authorization: `Bearer ${await getToken()}` } }
+      );
+      
+      if (data.success) {
+        toast.success("Hotel registered successfully");
+        setShowHotelReg(false);
+        setIsOwner(true);
+      }
     } catch (error) {
-      // surface backend error message when available (also prevents unused variable lint)
-      toast.error(error?.response?.data?.message || error?.message || "Registration failed. Please try again.");
+      toast.error(error.message);
     }
   };
 
