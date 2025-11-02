@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { assets } from "../assets/assets";
-import { useClerk, UserButton, useUser } from "@clerk/clerk-react";
+import { useClerk, UserButton } from "@clerk/clerk-react";
 import logo from "../assets/yatri.png";
 import { IoSearch } from "react-icons/io5";
 import { useAppContext } from "../context/AppContext";
@@ -36,7 +36,7 @@ const Navbar = () => {
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
+
   const { openSignIn } = useClerk();
   const location = useLocation();
 
