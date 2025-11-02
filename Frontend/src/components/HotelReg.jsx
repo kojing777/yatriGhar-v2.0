@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 const HotelReg = () => {
   // This component is used to register a hotel
 
-  const { setShowHotelReg, setIsOwner, axios, getToken, fetchUser } =
+  const { setShowHotelReg, setIsOwner, axios, getToken } =
     useAppContext();
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");
@@ -21,7 +21,7 @@ const HotelReg = () => {
         { name, contact, address, city },
         { headers: { Authorization: `Bearer ${await getToken()}` } }
       );
-      
+
       if (data.success) {
         toast.success("Hotel registered successfully");
         setShowHotelReg(false);

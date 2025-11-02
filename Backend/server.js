@@ -25,8 +25,6 @@ app.use(express.json());
 app.use(clerkMiddleware());
 
 // Clerk webhooks route
-// Clerk webhooks: use raw body parser for the webhook route so signature verification
-// is done against the exact bytes received (svix requires the raw payload).
 app.post('/api/clerk', express.raw({ type: 'application/json' }), clerkWebhooks);
 
 app.get('/', (req, res) => 
