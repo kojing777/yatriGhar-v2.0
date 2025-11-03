@@ -1,62 +1,80 @@
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect } from "react";
 import Title from "../../components/Title";
 import { useAppContext } from "../../context/AppContext";
-import { roomsDummyData } from "../../assets/assets";
 import toast from "react-hot-toast";
 
 const ListRooms = () => {
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [toggleLoading, setToggleLoading] = useState(null); // roomId being toggled
-  const { currency, axios, getToken, User } = useAppContext();
+  const { currency, axios, getToken, user } = useAppContext();
 
-  // Fetching rooms of the hotel owner
-  const fetchRooms = async () => {
-    try {
-      const { data } = await axios.get("/api/rooms/owner", {
-        headers: { Authorization: `Bearer ${await getToken()}` },
-      });
-      if (data.success) {
-        setRooms(data.rooms);
-      } else {
-        toast.error(data?.message || "Failed to fetch rooms");
-      }
-    } catch (error) {
-      const serverMessage = error?.response?.data?.message;
-      toast.error(serverMessage || error.message || "Something went wrong");
-    }
-  };
+  // Fetching rooms of the hotel owner - inlined in effect to avoid stale-deps lint
 
 
   // Optimistic UI for toggling room availability 
 const toggleAvailability = async (roomId) => {
-  const {data} = await axios.post(
-    "/api/rooms/toggle-availability",
-    { roomId },
-    {
-      headers: { Authorization: `Bearer ${await getToken()}` },
-    }
-  );
-  if (data.success) {
-    toast.success(data.message || "Room availability updated");
-    // Update room availability in state
-    setRooms((prevRooms) =>
-      prevRooms.map((room) =>
-        room._id === roomId
-          ? { ...room, isAvailable: !room.isAvailable }
-          : room
-      )
+  setToggleLoading(roomId);
+  try {
+    const { data } = await axios.post(
+      "/api/rooms/toggle-availability",
+      { roomId },
+      {
+        headers: { Authorization: `Bearer ${await getToken()}` },
+      }
     );
-  } else {
-    toast.error(data?.message || "Failed to update room availability");
+    if (data.success) {
+      toast.success(data.message || "Room availability updated");
+      // Update room availability in state
+      setRooms((prevRooms) =>
+        prevRooms.map((room) =>
+          room._id === roomId
+            ? { ...room, isAvailable: !room.isAvailable }
+            : room
+        )
+      );
+    } else {
+      toast.error(data?.message || "Failed to update room availability");
+    }
+  } catch (error) {
+    const serverMessage = error?.response?.data?.message;
+    toast.error(serverMessage || error.message || "Something went wrong");
+  } finally {
+    setToggleLoading(null);
   }
 };
 
   useEffect(() => {
-    if (User) {
-      fetchRooms();
-    }
-  }, [User]);
+    if (!user) return;
+
+    let mounted = true;
+
+    const fetchRooms = async () => {
+      setLoading(true);
+      try {
+        const { data } = await axios.get("/api/rooms/owner", {
+          headers: { Authorization: `Bearer ${await getToken()}` },
+        });
+        if (!mounted) return;
+        if (data.success) {
+          setRooms(data.rooms);
+        } else {
+          toast.error(data?.message || "Failed to fetch rooms");
+        }
+      } catch (error) {
+        const serverMessage = error?.response?.data?.message;
+        toast.error(serverMessage || error.message || "Something went wrong");
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    };
+
+    fetchRooms();
+
+    return () => {
+      mounted = false;
+    };
+  }, [user, axios, getToken]);
 
   return (
     <div>

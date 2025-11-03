@@ -6,7 +6,9 @@ import Room from "../models/Room.js";
 export const createRoom = async (req, res) => {
     try {
         const { roomType, pricePerNight, amenities, } = req.body;
-        const hotel = await Hotel.findById({ owner: req.auth.userId });
+        // `protect` middleware attaches the full user document as `req.user`
+        const ownerId = req.user?._id;
+        const hotel = await Hotel.findOne({ owner: ownerId });
 
         if (!hotel) {
             return res.status(404).json({ success: false, message: "Hotel not found" });
@@ -18,7 +20,7 @@ export const createRoom = async (req, res) => {
             return response.secure_url;
         });
 
-        const images = await Promise.all(uploadImages);
+        const images = await Promise.all(uploadedImages);
         await Room.create({
             hotel: hotel._id,
             roomType,
@@ -27,7 +29,7 @@ export const createRoom = async (req, res) => {
             images,
         });
 
-        res.json({ success: true, message: "Room created successfully" });
+        res.status(201).json({ success: true, message: "Room created successfully" });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
@@ -53,12 +55,15 @@ export const getRooms = async (req, res) => {
 //api to get all rooms for a specific hotel
 export const getOwnerRoom = async (req, res) => {
     try {
-        const hotelData = await Hotel.findOne({ owner: req.auth.userId }).populate('rooms');
+        // find hotel owned by authenticated user
+        const ownerId = req.user?._id;
+        const hotelData = await Hotel.findOne({ owner: ownerId });
         if (!hotelData) {
-            return res.status(404).json({ message: "Hotel not found" });
+            return res.status(404).json({ success: false, message: "Hotel not found" });
         }
-        const rooms = await Room.find({ hotel: hotelData._id.toString() }).populate('hotel');
-        res.json({ success: true, rooms });
+        // Rooms are stored in Room collection with `hotel` reference — query them directly
+        const rooms = await Room.find({ hotel: hotelData._id }).populate('hotel');
+        res.status(200).json({ success: true, rooms });
 
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
