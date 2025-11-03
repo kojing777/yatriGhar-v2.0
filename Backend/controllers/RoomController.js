@@ -77,10 +77,15 @@ export const toggleRoomAvailability = async (req, res) => {
 
         // Find the room by ID
         const roomData = await Room.findById(roomId);
+        if (!roomData) {
+            return res.status(404).json({ success: false, message: 'Room not found' });
+        }
+
         roomData.isAvailable = !roomData.isAvailable;
         await roomData.save();
 
-        res.status(200).json({ message: "Room availability updated" });
+        // return consistent response shape and include updated room state
+        res.status(200).json({ success: true, message: "Room availability updated", room: roomData });
 
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
