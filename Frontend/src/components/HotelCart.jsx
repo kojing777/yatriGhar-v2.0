@@ -4,30 +4,6 @@ import { assets } from "../assets/assets";
 
 const HotelCart = ({ room, index }) => {
   if (!room || room.hotel === null) return null;
-
-  // Defensive: room.images may be stored oddly (e.g., a single comma-joined string).
-  // Find the first valid image URL to use as src.
-  const getFirstImageUrl = () => {
-    if (!room.images) return null;
-    if (Array.isArray(room.images) && room.images.length > 0) {
-      const first = room.images[0];
-      if (typeof first === "string" && first.includes(",")) {
-        // split and take the first non-empty chunk
-        const parts = first.split(",").map((s) => s.trim()).filter(Boolean);
-        return parts.length ? parts[0] : null;
-      }
-      return first;
-    }
-    if (typeof room.images === "string") {
-      // fallback: if it's a single comma-separated string
-      const parts = room.images.split(",").map((s) => s.trim()).filter(Boolean);
-      return parts.length ? parts[0] : null;
-    }
-    return null;
-  };
-
-  const imageUrl = getFirstImageUrl();
-
   return (
     <Link
       className="relative max-w-70 w-full rounded-xl overflow-hidden bg-white text-gray-500/90 shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
@@ -35,11 +11,7 @@ const HotelCart = ({ room, index }) => {
       key={room._id}
       to={`/rooms/${room._id}`}
     >
-      {imageUrl ? (
-        <img src={imageUrl} alt="" />
-      ) : (
-        <img src={assets.uploadArea} alt="placeholder" />
-      )}
+      <img src={room.images[0]} alt="" />
       {index % 2 === 0 && (
         <p className="px-3 py-1 absolute top-3 left-3 text-xs bg-white text-gray-800 font-medium rounded-full">
           Best Seller

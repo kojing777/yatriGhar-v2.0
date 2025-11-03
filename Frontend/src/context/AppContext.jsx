@@ -2,7 +2,6 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUser, useAuth } from "@clerk/clerk-react";
 import { toast } from "react-hot-toast";
-import { roomsDummyData } from "../assets/assets";
 import axios from "axios";
 
 axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
