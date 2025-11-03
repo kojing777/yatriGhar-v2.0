@@ -25,31 +25,32 @@ const ListRooms = () => {
       const serverMessage = error?.response?.data?.message;
       toast.error(serverMessage || error.message || "Something went wrong");
     }
-
-    // Simulate a small delay for realistic loading experience
-    // setTimeout(() => {
-    //   setRooms(roomsDummyData);
-    //   setLoading(false);
-    //   console.log("Rooms loaded:", roomsDummyData.length);
-    // }, 500);
   };
 
-  // Optimistic UI for toggling room availability - now purely frontend
-  // const toggleAvailability = async (roomId) => {
-  //   setToggleLoading(roomId);
-  //   // Optimistically update UI
-  //   setRooms((prevRooms) =>
-  //     prevRooms.map((room) =>
-  //       room._id === roomId ? { ...room, isAvailable: !room.isAvailable } : room
-  //     )
-  //   );
 
-  //   // Simulate API call delay and response
-  //   // setTimeout(() => {
-  //   //   toast.success("Room availability updated (Demo Mode)");
-  //   //   setToggleLoading(null);
-  //   // }, 1000);
-  // };
+  // Optimistic UI for toggling room availability 
+const toggleAvailability = async (roomId) => {
+  const {data} = await axios.post(
+    "/api/rooms/toggle-availability",
+    { roomId },
+    {
+      headers: { Authorization: `Bearer ${await getToken()}` },
+    }
+  );
+  if (data.success) {
+    toast.success(data.message || "Room availability updated");
+    // Update room availability in state
+    setRooms((prevRooms) =>
+      prevRooms.map((room) =>
+        room._id === roomId
+          ? { ...room, isAvailable: !room.isAvailable }
+          : room
+      )
+    );
+  } else {
+    toast.error(data?.message || "Failed to update room availability");
+  }
+};
 
   useEffect(() => {
     if (User) {
@@ -101,7 +102,7 @@ const ListRooms = () => {
                   <td className="py-3 px-4 text-red-500 border-t border-gray-300 text-center">
                     <label className="relative inline-flex cursor-pointer items-center text-gray-900 gap-3">
                       <input
-                        // onChange={() => toggleAvailability(item._id)}
+                        onChange={() => toggleAvailability(item._id)}
                         type="checkbox"
                         className="sr-only peer"
                         checked={item.isAvailable}

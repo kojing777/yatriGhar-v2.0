@@ -6,10 +6,7 @@ import Room from "../models/Room.js";
 export const createRoom = async (req, res) => {
     try {
         const { roomType, pricePerNight, amenities, } = req.body;
-        // find hotel owned by the authenticated user
-        // `protect` middleware attaches the user to `req.user` (see HotelController)
-        const ownerId = req.user?._id;
-        const hotel = await Hotel.findOne({ owner: ownerId });
+        const hotel = await Hotel.findById({ owner: req.auth.userId });
 
         if (!hotel) {
             return res.status(404).json({ success: false, message: "Hotel not found" });
@@ -21,7 +18,7 @@ export const createRoom = async (req, res) => {
             return response.secure_url;
         });
 
-        const images = await Promise.all(uploadedImages);
+        const images = await Promise.all(uploadImages);
         await Room.create({
             hotel: hotel._id,
             roomType,
@@ -30,7 +27,7 @@ export const createRoom = async (req, res) => {
             images,
         });
 
-        res.status(201).json({ success: true, message: "Room created successfully" });
+        res.json({ success: true, message: "Room created successfully" });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
@@ -56,10 +53,12 @@ export const getRooms = async (req, res) => {
 //api to get all rooms for a specific hotel
 export const getOwnerRoom = async (req, res) => {
     try {
-        // find the hotel for the authenticated owner
-        const hotelData = await Hotel.findOne({ owner: req.auth.userId })
-        const rooms = await Room.find({ hotel: hotelData._id }).populate('hotel');
-        res.status(200).json({ success: true, rooms });
+        const hotelData = await Hotel.findOne({ owner: req.auth.userId }).populate('rooms');
+        if (!hotelData) {
+            return res.status(404).json({ message: "Hotel not found" });
+        }
+        const rooms = await Room.find({ hotel: hotelData._id.toString() }).populate('hotel');
+        res.json({ success: true, rooms });
 
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
