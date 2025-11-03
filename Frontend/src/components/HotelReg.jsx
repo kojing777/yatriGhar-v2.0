@@ -15,19 +15,28 @@ const HotelReg = () => {
   const onSubmitHandler = async (event) => {
     try {
       event.preventDefault();
-      const { data } = await axios.post(
+      const token = await getToken();
+      const response = await axios.post(
         `/api/hotels`,
         { name, contact, address, city },
-        { headers: { Authorization: `Bearer ${await getToken()}` } }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      if (data.success) {
-        toast.success("Hotel registered successfully");
+      const { data, status } = response;
+
+      // Backend may return different shapes; accept success flag or 201 status or message
+      if (data?.success || status === 201 || data?.message) {
+        toast.success(data?.message || "Hotel registered successfully");
         setShowHotelReg(false);
         setIsOwner(true);
+      } else {
+        // If server responded but didn't send success, show message if available
+        toast.error(data?.message || "Failed to register hotel");
       }
     } catch (error) {
-      toast.error(error.message);
+      // Try to show a helpful message from server if present
+      const serverMessage = error?.response?.data?.message;
+      toast.error(serverMessage || error.message || "Something went wrong");
     }
   };
 

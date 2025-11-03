@@ -23,8 +23,10 @@ export const registerHotel = async (req, res) => {
 
         await User.findByIdAndUpdate(owner, { role: "hotelOwner" });
 
-        res.status(201).json({ message: "Hotel registered successfully" });
+        // Return a consistent response shape so the frontend can rely on `success` and `message`
+        res.status(201).json({ success: true, message: "Hotel registered successfully" });
     } catch (error) {
-        res.json({ success: false, message: error.message });
+        // Send a 500 status for unexpected errors and include a success flag
+        res.status(500).json({ success: false, message: error.message });
     }
 };
