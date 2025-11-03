@@ -1,7 +1,6 @@
 import Hotel from "../models/Hotel.js";
 import User from "../models/User.js";
 
-
 export const registerHotel = async (req, res) => {
     try {
         const { name, address, contact, city, } = req.body;
@@ -22,11 +21,8 @@ export const registerHotel = async (req, res) => {
         });
 
         await User.findByIdAndUpdate(owner, { role: "hotelOwner" });
-
-        // Return a consistent response shape so the frontend can rely on `success` and `message`
         res.status(201).json({ success: true, message: "Hotel registered successfully" });
     } catch (error) {
-        // Send a 500 status for unexpected errors and include a success flag
         res.status(500).json({ success: false, message: error.message });
     }
 };
