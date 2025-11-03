@@ -9,40 +9,37 @@ const ListRooms = () => {
   const [toggleLoading, setToggleLoading] = useState(null); // roomId being toggled
   const { currency, axios, getToken, user } = useAppContext();
 
-  // Fetching rooms of the hotel owner - inlined in effect to avoid stale-deps lint
-
-
-  // Optimistic UI for toggling room availability 
-const toggleAvailability = async (roomId) => {
-  setToggleLoading(roomId);
-  try {
-    const { data } = await axios.post(
-      "/api/rooms/toggle-availability",
-      { roomId },
-      {
-        headers: { Authorization: `Bearer ${await getToken()}` },
-      }
-    );
-    if (data.success) {
-      toast.success(data.message || "Room availability updated");
-      // Update room availability in state
-      setRooms((prevRooms) =>
-        prevRooms.map((room) =>
-          room._id === roomId
-            ? { ...room, isAvailable: !room.isAvailable }
-            : room
-        )
+  // Optimistic UI for toggling room availability
+  const toggleAvailability = async (roomId) => {
+    setToggleLoading(roomId);
+    try {
+      const { data } = await axios.post(
+        "/api/rooms/toggle-availability",
+        { roomId },
+        {
+          headers: { Authorization: `Bearer ${await getToken()}` },
+        }
       );
-    } else {
-      toast.error(data?.message || "Failed to update room availability");
+      if (data.success) {
+        toast.success(data.message || "Room availability updated");
+        // Update room availability in state
+        setRooms((prevRooms) =>
+          prevRooms.map((room) =>
+            room._id === roomId
+              ? { ...room, isAvailable: !room.isAvailable }
+              : room
+          )
+        );
+      } else {
+        toast.error(data?.message || "Failed to update room availability");
+      }
+    } catch (error) {
+      const serverMessage = error?.response?.data?.message;
+      toast.error(serverMessage || error.message || "Something went wrong");
+    } finally {
+      setToggleLoading(null);
     }
-  } catch (error) {
-    const serverMessage = error?.response?.data?.message;
-    toast.error(serverMessage || error.message || "Something went wrong");
-  } finally {
-    setToggleLoading(null);
-  }
-};
+  };
 
   useEffect(() => {
     if (!user) return;

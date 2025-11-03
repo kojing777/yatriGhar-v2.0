@@ -97,7 +97,6 @@ export const getUserBookings = async (req, res) => {
 //GET /api/booking/hotel    
 export const getHotelBookings = async (req, res) => {
     try {
-        // use req.user (set by protect middleware) instead of deprecated req.auth property
         const ownerId = req.user?._id;
         const hotel = await Hotel.findOne({ owner: ownerId });
         if (!hotel) {

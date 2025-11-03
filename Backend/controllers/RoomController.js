@@ -6,7 +6,6 @@ import Room from "../models/Room.js";
 export const createRoom = async (req, res) => {
     try {
         const { roomType, pricePerNight, amenities, } = req.body;
-        // `protect` middleware attaches the full user document as `req.user`
         const ownerId = req.user?._id;
         const hotel = await Hotel.findOne({ owner: ownerId });
 
