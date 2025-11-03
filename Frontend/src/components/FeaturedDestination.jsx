@@ -1,11 +1,12 @@
 import React from "react";
 import HotelCart from "./HotelCart";
 import Title from "./Title";
-import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
 
 const FeaturedDestination = () => {
   const { rooms, navigate } = useAppContext();
+
+  
   return rooms.length > 0 && (
     <div className="flex flex-col items-center px-6 md:px-16 lg:px-24 bg-slate-50 py-20">
       <Title

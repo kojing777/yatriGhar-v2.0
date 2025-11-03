@@ -4,7 +4,7 @@ import { useUser, useAuth } from "@clerk/clerk-react";
 import { toast } from "react-hot-toast";
 import { roomsDummyData } from "../assets/assets";
 import axios from "axios";
-  
+
 axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
 
 const AppContext = createContext();
@@ -15,14 +15,14 @@ export const AppProvider = ({ children }) => {
   const location = useLocation();
   const { user } = useUser();
   const { getToken } = useAuth();
-  
+
   const [isOwner, setIsOwner] = useState(false);
   const [showHotelReg, setShowHotelReg] = useState(false);
   const [searchedCities, setSearchedCities] = useState([
     "Kathmandu",
     "Pokhara",
   ]); // Default cities for demo
-  const [rooms, setRooms] = useState(roomsDummyData);
+  const [rooms, setRooms] = useState([]);
 
   // Listen for route changes to update owner status
   useEffect(() => {
@@ -31,10 +31,17 @@ export const AppProvider = ({ children }) => {
     }
   }, [location.pathname]);
 
-  // Removed all backend API calls - using static dummy data
-  const fetchRooms = () => {
-    // Using static dummy data instead of backend call
-    setRooms(roomsDummyData);
+  const fetchRooms = async () => {
+    try {
+      const { data } = await axios.get(`/api/rooms`);
+      if (data.success) {
+        setRooms(data.rooms);
+      } else {
+        toast.error(data?.message || "Failed to fetch rooms");
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   const fetchUser = async () => {
@@ -56,7 +63,6 @@ export const AppProvider = ({ children }) => {
     }
   };
 
-  // fetchUser is intentionally called when `user` changes; keep deps minimal
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (user) {

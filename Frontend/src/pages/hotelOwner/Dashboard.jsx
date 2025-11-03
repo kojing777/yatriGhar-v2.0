@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Title from "../../components/Title";
 import { useAppContext } from "../../context/AppContext";
-import { assets, dashboardDummyData } from "../../assets/assets";
+import { assets } from "../../assets/assets";
+import toast from "react-hot-toast";
 
 const Dashboard = () => {
-  const { currency } = useAppContext();
+  const { currency, user, axios, getToken } = useAppContext();
 
   const [dashboardData, setDashboardData] = useState({
     totalBookings: 0,
@@ -13,15 +14,25 @@ const Dashboard = () => {
   });
 
   useEffect(() => {
-    const fetchDashboardData = () => {
-      // Using static dummy data instead of backend call
-      console.log('Loading dashboard data:', dashboardDummyData);
-      setDashboardData(dashboardDummyData);
+    const fetchDashboardData = async () => {
+      try {
+        const { data } = await axios.get("/api/booking/hotel", {
+          headers: { Authorization: `Bearer ${await getToken()}` },
+        });
+        if (data.success) {
+          setDashboardData(data.dashboardData);
+        } else {
+          toast.error(data?.message || "Failed to fetch dashboard data");
+        }
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+      }
     };
 
-    // Load dashboard data immediately in demo mode
-    fetchDashboardData();
-  }, []);
+    if (user) {
+      fetchDashboardData();
+    }
+  }, [user, axios, getToken]);
 
   return (
     <div>
