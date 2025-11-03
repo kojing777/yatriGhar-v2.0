@@ -5,14 +5,13 @@ import { useAppContext } from "../../context/AppContext";
 import { useEffect } from "react";
 
 const Layout = () => {
-  const { isOwner, setIsOwner } = useAppContext();
+  const { isOwner, navigate } = useAppContext();
 
   useEffect(() => {
-    // In demo mode, automatically set user as owner when accessing /owner route
     if (!isOwner) {
-      setIsOwner(true);
+      navigate("/"); // Redirect to home if not owner
     }
-  }, [isOwner, setIsOwner]);
+  }, [isOwner, navigate]);
 
   return (
     <div className="flex flex-col h-screen">
