@@ -104,7 +104,7 @@ const AllRooms = () => {
       return room.pricePerNight >= min && room.pricePerNight <= max;
     };
 
-    //function to check if a filter is selected sort by
+    //function to check if a filter is selected sort by //corrected function name
     const sortRooms = (a, b) => {
       if (selectedSort === "Price Low to High") {
         return a.pricePerNight - b.pricePerNight;

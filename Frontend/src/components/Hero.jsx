@@ -5,28 +5,34 @@ import { FaSearch } from "react-icons/fa";
 import { useAppContext } from "../context/AppContext";
 
 const Hero = () => {
-  const {navigate, setSearchedCities} = useAppContext();
-  const [destinations, setDestinations] = useState('')
+  const { navigate, setSearchedCities, axios, getToken } = useAppContext();
+  const [destinations, setDestinations] = useState("");
+
   const onSearch = async (e) => {
     e.preventDefault();
     console.log("Searching for destination:", destinations);
-    
+
     navigate(`/rooms?destination=${destinations}`);
-    
+
+    //add destination to searched cities in context
+    await axios.post(
+      "api/user/store-recent-search",
+      { recentSearchedCity: destinations },
+      { headers: { Authorization: `Bearer ${getToken()}` } }
+    );
+
     //add destination to searched cities in context
     setSearchedCities((prevSearchedCities) => {
-      console.log("Previous searched cities:", prevSearchedCities);
-      const updatedsearchedCities = [...prevSearchedCities, destinations];
-      if (updatedsearchedCities.length > 3) {
-        updatedsearchedCities.shift(); // Remove the oldest city if more than 3
-      }
-      console.log("Updated searched cities:", updatedsearchedCities);
-      return updatedsearchedCities;
-    });
+      const updatedSearchedCities = [destinations, ...prevSearchedCities];
 
-    // Removed backend API call for saving recent searches
-    console.log("Search would be saved in demo mode");
+      if (updatedSearchedCities.length > 3) {
+        updatedSearchedCities.pop();
+      }
+      //remove duplicates
+      return updatedSearchedCities;
+    });
   };
+
   return (
     <div className='flex flex-col items-start justify-center px-6 md:px-16 lg:px-24 xl:px-32 text-white bg-[url("/src/assets/nepal1.jpg")] bg-no-repeat bg-cover bg-center h-screen'>
       <p className="bg-[#49b9ff]/50 px-3.5 py-1 rounded-full mt-20">
@@ -40,15 +46,20 @@ const Hero = () => {
         traditional homes across the Himalayas.
       </p>
 
-      <form onSubmit={onSearch} className="bg-white mt-8 text-gray-500 rounded-lg px-6 py-4  flex flex-col md:flex-row max-md:items-start gap-4 max-md:mx-auto">
+      <form
+        onSubmit={onSearch}
+        className="bg-white mt-8 text-gray-500 rounded-lg px-6 py-4  flex flex-col md:flex-row max-md:items-start gap-4 max-md:mx-auto"
+      >
         <div>
           <div className="flex items-center gap-2">
             <MdEditCalendar />
             <label htmlFor="destinationInput">Destination</label>
           </div>
-          <input onChange={(e) => {
-            setDestinations(e.target.value);
-          }} value={destinations}
+          <input
+            onChange={(e) => {
+              setDestinations(e.target.value);
+            }}
+            value={destinations}
             list="destinations"
             id="destinationInput"
             type="text"
