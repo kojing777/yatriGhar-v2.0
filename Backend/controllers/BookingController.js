@@ -40,7 +40,9 @@ export const createBooking = async (req, res) => {
     try {
 
 
-    const { room, checkInDate, checkOutDate, guests } = req.body;
+    const { room, checkInDate, checkOutDate, guests, paymentMethod, PaymentMethod } = req.body;
+    // Accept either `paymentMethod` or legacy `PaymentMethod` from frontend
+    const chosenPaymentMethod = paymentMethod || PaymentMethod || 'Pay at Hotel';
         const user = req.user._id;
 
         //before booking check availability
@@ -71,7 +73,8 @@ export const createBooking = async (req, res) => {
             checkOutDate,
             hotel: roomData.hotel._id,
             guest: +guests,
-            totalPrice
+            totalPrice,
+            paymentMethod: chosenPaymentMethod,
         });
 
         res.status(201).json({ success: true, message: "Booking created successfully", booking });
