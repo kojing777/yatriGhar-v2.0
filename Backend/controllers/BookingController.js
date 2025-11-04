@@ -40,7 +40,7 @@ export const createBooking = async (req, res) => {
     try {
 
 
-        const { room, checkInDate, checkOutDate } = req.body;
+    const { room, checkInDate, checkOutDate, guests } = req.body;
         const user = req.user._id;
 
         //before booking check availability
