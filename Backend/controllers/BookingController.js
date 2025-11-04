@@ -81,7 +81,13 @@ export const createBooking = async (req, res) => {
             from: process.env.SENDER_EMAIL,
             to: req.user.email,
             subject: 'Booking Confirmation',
-            text: `Dear ${req.user.username},\n\nYour booking for room ${booking._id} from ${checkInDate} to ${checkOutDate} has been confirmed.\nTotal Price: $${totalPrice}\n\nThank you for choosing our service!\n\nBest regards,\nYatriGhar Team`
+            html: `<h1>Tour Booking Details</h1>
+                   <p>Dear ${req.user.username},</p>
+                   <p>Your booking for room ${booking._id} from ${checkInDate} to ${checkOutDate} has been confirmed.</p>
+                   <p>Total Price: $${totalPrice}</p>
+                   <p>Thank you for choosing our service!</p>
+                   <p>Best regards,</p>
+                   <p>YatriGhar Team</p>`
         };
         await transporter.sendMail(mailOptions);
         res.status(201).json({ success: true, message: "Booking created successfully", booking });
