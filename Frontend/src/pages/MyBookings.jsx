@@ -1,23 +1,33 @@
 import Title from "../components/Title";
-import { assets, userBookingsDummyData } from "../assets/assets";
+import { assets } from "../assets/assets";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../context/AppContext";
 
 const MyBookings = () => {
-  const { user } = useAppContext();
-  
+  const { user, axios, getToken } = useAppContext();
   const [bookings, setBookings] = useState([]);
 
-  const fetchUserBookings = () => {
-    // Using static dummy data instead of backend call
-    setBookings(userBookingsDummyData);
+  const fetchUserBookings = async () => {
+    try {
+      const token = await getToken();
+      const response = await axios.get("/api/booking/user", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.data.success) {
+        setBookings(response.data.bookings);
+      }
+    } catch (error) {
+      console.error("Error fetching user bookings:", error);
+    }
   };
-
   useEffect(() => {
     if (user) {
       fetchUserBookings();
     }
   }, [user]);
+
   return (
     <div className="py-28 md:pb-35 px-4 md:pt-32 lg:px-24 xl:px-32">
       <Title
@@ -55,7 +65,9 @@ const MyBookings = () => {
 
                 <div className="flex items-center gap-1 text-sm text-gray-500">
                   <img src={assets.locationIcon} alt="location icon" />
-                  <span>{booking.hotel ? booking.hotel.address : "Unknown Address"}</span>
+                  <span>
+                    {booking.hotel ? booking.hotel.address : "Unknown Address"}
+                  </span>
                 </div>
                 <div className="flex items-center gap-1 text-sm text-gray-500">
                   <img src={assets.guestsIcon} alt="location icon" />
