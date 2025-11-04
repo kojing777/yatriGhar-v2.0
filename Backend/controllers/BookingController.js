@@ -3,18 +3,21 @@ import Hotel from "../models/Hotel.js";
 import Room from "../models/Room.js";
 
 //function to check availability of rooms
-const checkAvailability = async (checkInDate, checkOutDate, room) => {
+// Accepts an object { checkInDate, checkOutDate, room }
+const checkAvailability = async ({ checkInDate, checkOutDate, room }) => {
     try {
+        if (!room || !checkInDate || !checkOutDate) return false;
         const bookings = await Booking.find({
             room,
             checkInDate: { $lte: checkOutDate },
             checkOutDate: { $gte: checkInDate }
         });
-        isAvailable = bookings.length === 0;
+        const isAvailable = bookings.length === 0;
         return isAvailable;
 
     } catch (error) {
-        console.error(error.message);
+        console.error('checkAvailability error:', error.message);
+        return false;
     }
 };
 

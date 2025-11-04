@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 
 const RoomDetails = () => {
   const { id } = useParams();
-  const { rooms, navigate } = useAppContext();
+  const { rooms, navigate, getToken, axios } = useAppContext();
   // Assuming you want to use the room ID from the URL
   const [room, setRoom] = useState(null); // State to hold room data
   const [mainImage, setMainImage] = useState(null); // State for main image URL
@@ -16,26 +16,28 @@ const RoomDetails = () => {
   const [guests, setGuests] = useState(1);
 
   const [isAvailable, setIsAvailable] = useState(false);
-  //check room available - now using static logic
+  //check room available
   const checkAvailability = async () => {
     try {
       if (!checkInDate || !checkOutDate) {
         toast.error("Please select both check-in and check-out dates");
         return;
       }
-      if (checkInDate > checkOutDate) {
-        toast.error("Checkin Date should be less than Check Out Date");
-        return;
-      }
-      
-      // Simulate availability check without backend call
-      const available = Math.random() > 0.3; // 70% chance of being available
-      if (available) {
-        setIsAvailable(true);
-        toast.success("Room is available (Demo Mode)");
+      const { data } = await axios.post("/api/booking/check-availability", {
+        room: id,
+        checkInDate,
+        checkOutDate,
+      });
+      if (data.success) {
+        if (data.isAvailable) {
+          setIsAvailable(true);
+          toast.success("Room is available");
+        } else {
+          setIsAvailable(false);
+          toast.error("Room is not available");
+        }
       } else {
-        setIsAvailable(false);
-        toast.error("Room is not available (Demo Mode)");
+        toast.error("Failed to check availability. Please try again.");
       }
     } catch (error) {
       toast.error(error.message);
@@ -49,10 +51,25 @@ const RoomDetails = () => {
       if (!isAvailable) {
         return checkAvailability();
       } else {
-        // Simulate booking without backend call
-        toast.success("Room booked successfully (Demo Mode)");
-        navigate("/my-bookings");
-        scrollTo(0, 0);
+        const token = await getToken();
+        const { data } = await axios.post(
+          "/api/booking/book",
+          {
+            room: id,
+            checkInDate,
+            checkOutDate,
+            guests,
+            PaymentMethod: "Pay at Hotel",
+          },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        if (data.success) {
+          toast.success("Room booked successfully");
+          navigate("/my-bookings");
+          scrollTo(0, 0);
+        } else {
+          toast.error("Failed to book the room. Please try again.");
+        }
       }
     } catch (error) {
       toast.error(error.message);
@@ -77,7 +94,8 @@ const RoomDetails = () => {
         {/* room details */}
         <div className="flex flex-col md:flex-row items-start md:items-center gap-2">
           <h1 className="text-3xl md:text-4xl font-playfair">
-            {room.hotel?.name || "Unknown Hotel"} <span className="font-inter text-sm">({room.roomType})</span>
+            {room.hotel?.name || "Unknown Hotel"}{" "}
+            <span className="font-inter text-sm">({room.roomType})</span>
           </h1>
           <p className="text-xs font-inter py-1.5 px-3 text-white bg-orange-500 rounded-full">
             20% off
@@ -248,12 +266,18 @@ const RoomDetails = () => {
         <div className="flex flex-col items-start gap-4">
           <div className="flex gap-4">
             <img
-              src={room.hotel && room.hotel.owner ? room.hotel.owner.image : assets.userIcon}
+              src={
+                room.hotel && room.hotel.owner
+                  ? room.hotel.owner.image
+                  : assets.userIcon
+              }
               alt="Host"
               className="h-14 w-14 md:h-18 md:w-18 rounded-full"
             />
             <div>
-              <p className="text-lg md:text-xl">Hosted by {room.hotel?.name || "Unknown Hotel"}</p>
+              <p className="text-lg md:text-xl">
+                Hosted by {room.hotel?.name || "Unknown Hotel"}
+              </p>
               <div className="flex items-center mt-1">
                 <StarRating />
                 <p className="ml-2">200+ reviews</p>
