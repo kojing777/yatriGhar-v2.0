@@ -14,8 +14,7 @@ const Footer = () => {
         <div className="max-w-80">
           <img src={logo} alt="logo" className="mb-4 h-16 md:h-14" />
           <p className="text-sm">
-            Discover the world's most extraordinary places to stay, from
-            boutique hotels to luxury villas and private islands.
+           Explore the world’s most exceptional stays — from boutique hotels to luxurious villas and private retreats.
           </p>
           <div className="flex items-center gap-4 mt-4">
             {/* Instagram */}
@@ -74,7 +73,7 @@ const Footer = () => {
         <div className="max-w-80">
           <p className="text-lg font-playfair text-gray-800">STAY UPDATED</p>
           <p className="mt-3 text-sm">
-            Subscribe to our newsletter for inspiration and special offers.
+          Subscribe to our newsletter and receive exclusive offers and travel inspiration.
           </p>
           <div className="flex items-center mt-4">
             <input

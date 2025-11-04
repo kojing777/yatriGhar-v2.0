@@ -105,7 +105,7 @@ const RoomDetails = () => {
         {/* room rating */}
         <div className="flex items-center mt-2 gap-1">
           <StarRating />
-          <p className="ml-2">200+ reviews</p>
+          <p className="ml-2">250+ reviews</p>
         </div>
         {/* rooms address */}
         <div className="flex items-center gap-1 text-gray-400 mt-2">
@@ -141,7 +141,7 @@ const RoomDetails = () => {
         <div className="flex flex-col md:flex-row  justify-between mt-10">
           <div className="flex flex-col">
             <h1 className="text-3xl md:text-4xl font-playfair">
-              Experience Luxury Like Never Before
+              Indulge in a World of Refined Comfort.
             </h1>
 
             <div className="flex flex-wrap items-center gap-4 mb-6 mt-3">
@@ -252,13 +252,7 @@ const RoomDetails = () => {
 
         <div className="max-w-3xl border-y border-gray-300 my-15 py-10 te4xt-gray-500">
           <p>
-            Guests will be allocated on the ground floor according to
-            availability. You get a comfortable Two bedroom apartment has a true
-            city feeling. The price quoted is for two guest, at the guest slot
-            please mark the number of guests to get the exact price for groups.
-            The Guests will be allocated ground floor according to availability.
-            You get the comfortable two bedroom apartment that has a true city
-            feeling.
+Guests will be accommodated on the ground floor based on availability. Enjoy a comfortable two-bedroom apartment that captures the true essence of city living. The listed price is for two guests please select the number of guests to view the exact rate for larger groups.
           </p>
         </div>
 
