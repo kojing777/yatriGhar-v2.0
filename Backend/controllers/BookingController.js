@@ -1,6 +1,7 @@
 import Booking from "../models/Booking.js";
 import Hotel from "../models/Hotel.js";
 import Room from "../models/Room.js";
+import transporter from "../configs/nodemailer.js";
 
 //function to check availability of rooms
 // Accepts an object { checkInDate, checkOutDate, room }
@@ -38,8 +39,6 @@ export const checkAvailabilityApi = async (req, res) => {
 //POST /api/booking/create
 export const createBooking = async (req, res) => {
     try {
-
-
     const { room, checkInDate, checkOutDate, guests, paymentMethod, PaymentMethod } = req.body;
     // Accept either `paymentMethod` or legacy `PaymentMethod` from frontend
     const chosenPaymentMethod = paymentMethod || PaymentMethod || 'Pay at Hotel';
@@ -77,6 +76,14 @@ export const createBooking = async (req, res) => {
             paymentMethod: chosenPaymentMethod,
         });
 
+        // Send confirmation email
+        const mailOptions = {
+            from: process.env.SENDER_EMAIL,
+            to: req.user.email,
+            subject: 'Booking Confirmation',
+            text: `Dear ${req.user.username},\n\nYour booking for room ${booking._id} from ${checkInDate} to ${checkOutDate} has been confirmed.\nTotal Price: $${totalPrice}\n\nThank you for choosing our service!\n\nBest regards,\nYatriGhar Team`
+        };
+        await transporter.sendMail(mailOptions);
         res.status(201).json({ success: true, message: "Booking created successfully", booking });
 
     } catch (error) {
