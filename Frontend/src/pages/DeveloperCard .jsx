@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 
 const DeveloperCard = ({ name, role, description, image, github, linkedin, twitter }) => {
-  const [visible, setVisible] = React.useState(false);
-  const [position, setPosition] = React.useState({ x: 0, y: 0 });
-  const divRef = React.useRef(null);
+  const [visible, setVisible] = useState(false);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const divRef = useRef(null);
 
   const handleMouseMove = (e) => {
     const bounds = divRef.current.getBoundingClientRect();
@@ -108,10 +108,10 @@ export default function AboutUs() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 max-w-6xl mx-auto">
         <DeveloperCard
           name="Bijaya Tamang"
-          role="Full Stack Developer"
+          role="Mern Stack Developer"
           description="Building seamless hotel booking experiences with modern design and efficient backend logic."
           image="https://images.unsplash.com/photo-1603415526960-f7e0328d4b1b?auto=format&fit=crop&w=400&q=80"
-          github="#"
+          github="https://github.com/kojing777"
           linkedin="#"
           twitter="#"
         />
@@ -120,16 +120,16 @@ export default function AboutUs() {
           role="Frontend Developer"
           description="Designing user-centric interfaces with a focus on performance, accessibility, and aesthetics."
           image="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=400&q=80"
-          github="#"
+          github="https://github.com/Prayuzzzzzz"
           linkedin="#"
           twitter="#"
         />
         <DeveloperCard
           name="Sachin Magar"
-          role="Backend Developer"
+          role="Quality Assurance Engineer"
           description="Ensuring reliability, data security, and scalability for all YatriGhar backend systems."
           image="https://images.unsplash.com/photo-1541532713592-79a0317b6b77?auto=format&fit=crop&w=400&q=80"
-          github="#"
+          github="https://github.com/sujanmagr"
           linkedin="#"
           twitter="#"
         />
