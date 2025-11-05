@@ -16,7 +16,7 @@ const FeaturedDestination = () => {
 
       <div className="w-full max-w-7xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-20">
-          {rooms.slice(0, 4).map((room, index) => (
+          {rooms.slice(0, 8).map((room, index) => (
             <HotelCart key={room._id} room={room} index={index} />
           ))}
         </div>

@@ -11,9 +11,9 @@ import Layout from "./pages/hotelOwner/Layout";
 import AddRooms from "./pages/hotelOwner/AddRooms";
 import ListRooms from "./pages/hotelOwner/ListRooms";
 import Dashboard from "./pages/hotelOwner/Dashboard";
+import About from "./pages/About";
 import {Toaster} from "react-hot-toast";
 import { useAppContext } from "./context/AppContext";
-import HeroSection from "./components/HeroSection";
 
 const App = () => {
   const isOwnerPath = useLocation().pathname.includes("owner");
@@ -27,6 +27,7 @@ const App = () => {
       <div className="min-h-[70vh]">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
           <Route path="/rooms" element={<AllRooms />} />
           <Route path="/rooms/:id" element={<RoomDetails />} />
           <Route path="/my-bookings" element={<MyBookings />} />

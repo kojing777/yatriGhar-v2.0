@@ -6,7 +6,7 @@ import Testimonials from "../components/Testimonials";
 import NewsLetter from "../components/NewsLetter";
 import Footer from "../components/Footer";
 import RecommendedHotels from "../components/RecommendedHotel";
-import HeroSection from "../components/HeroSection";
+import Gallery from "../components/Gallery";
 import ServicesSection from "../components/ServicesSection";
 
 const Home = () => {
@@ -16,10 +16,9 @@ const Home = () => {
       <ServicesSection />
       <RecommendedHotels />
       <FeaturedDestination />
-      
-      <HeroSection />
       <ExclusiveOffers />
       <Testimonials />
+      <Gallery />
       <NewsLetter />
     </>
   );

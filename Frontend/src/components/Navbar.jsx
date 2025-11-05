@@ -31,7 +31,7 @@ const Navbar = () => {
     { name: "Home", path: "/" },
     { name: "Hotels", path: "/rooms" },
     { name: "Experience", path: "/" },
-    { name: "About", path: "/" },
+    { name: "About", path: "/about" },
   ];
 
   const [isScrolled, setIsScrolled] = useState(false);
@@ -188,9 +188,9 @@ const Navbar = () => {
         </button>
 
         {navLinks.map((link, i) => (
-          <a key={i} href={link.path} onClick={() => setIsMenuOpen(false)}>
+          <Link key={i} to={link.path} onClick={() => setIsMenuOpen(false)}>
             {link.name}
-          </a>
+          </Link>
         ))}
 
         {user && (

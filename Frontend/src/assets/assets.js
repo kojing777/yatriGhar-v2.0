@@ -28,9 +28,9 @@ import roomImg2 from './roomImg2.png'
 import roomImg3 from './roomImg3.png'
 import roomImg4 from './roomImg4.png'
 import regImage from './regImage.png'
-import exclusiveOfferCardImg1 from "./exclusiveOfferCardImg1.png";
-import exclusiveOfferCardImg2 from "./exclusiveOfferCardImg2.png";
-import exclusiveOfferCardImg3 from "./exclusiveOfferCardImg3.png";
+import exclusiveOfferCardImg1 from "./ex1.jpeg";
+import exclusiveOfferCardImg2 from "./ex2.jpeg";
+import exclusiveOfferCardImg3 from "./ex3.jpeg";
 import addIcon from "./addIcon.svg";
 import dashboardIcon from "./dashboardIcon.svg";
 import listIcon from "./listIcon.svg";
