@@ -90,7 +90,7 @@ const RoomDetails = () => {
 
   return (
     room && (
-      <div className="py-28 md:py-35 px-4 md:px-16 lg:px-24 xl:px-32">
+      <div className="py-12 md:py-20 lg:py-28 px-4 md:px-16 lg:px-24 xl:px-32">
         {/* room details */}
         <div className="flex flex-col md:flex-row items-start md:items-center gap-2">
           <h1 className="text-3xl md:text-4xl font-playfair">
@@ -119,20 +119,20 @@ const RoomDetails = () => {
             <img
               src={mainImage}
               alt="room images"
-              className="w-full rounded-xl shadow-lg object-cover"
+              className="w-full rounded-xl shadow-lg object-cover h-64 md:h-80 lg:h-[420px]"
             />
           </div>
           <div className="grid grid-cols-2 gap-4 lg:w-1/2 w-full">
-            {room?.images.length > 1 &&
+            {room?.images && room.images.length > 1 &&
               room.images.map((image, index) => (
                 <img
                   onClick={() => setMainImage(image)}
                   key={index}
                   src={image}
-                  alt="room images"
-                  className={`w-full rounded-xl object-cover cursor-pointer ${
-                    mainImage === image && "outline-3 outline-orange-500"
-                  } `}
+                  alt={`room image ${index + 1}`}
+                  className={`w-full rounded-xl object-cover cursor-pointer h-28 md:h-36 ${
+                    mainImage === image ? "outline-3 outline-orange-500" : ""
+                  }`}
                 />
               ))}
           </div>
@@ -167,13 +167,13 @@ const RoomDetails = () => {
         {/* checkin checkout form */}
         <form
           onSubmit={onSubmitHandler}
-          className="flex flex-col md:flex-row items-start md:items-center justify-between bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.15)] p-6 rounded-xl mx-auto mt-16 max-w-6xl"
+          className="flex flex-col md:flex-row items-start md:items-center justify-between bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.15)] p-4 md:p-6 rounded-xl mx-auto mt-12 max-w-6xl"
           action=""
         >
-          <div className="flex flex-col flex-wrap md:flex-row items-start md:items-center gap-4 md:gap-10 text-gray-500">
-            <div className="flex flex-col">
+          <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-10 text-gray-500 w-full">
+            <div className="flex flex-col w-full md:w-auto">
               <label htmlFor="checkInDate" className="font-medium">
-                Check-in{" "}
+                Check-in
               </label>
 
               <input
@@ -183,13 +183,13 @@ const RoomDetails = () => {
                 id="checkInDate"
                 placeholder="Check-In"
                 required
-                className="w-full rounded border border-gray-300 px-3 py-2 mt-1.5 outline-none"
+                className="w-full md:w-52 rounded border border-gray-300 px-3 py-2 mt-1.5 outline-none"
               />
             </div>
 
             {/* check out  */}
-            <div className="w-px h-15 bg-gray-300/70 max-md:hidden"></div>
-            <div className="flex flex-col">
+            <div className="hidden md:block w-px h-12 bg-gray-300/70"></div>
+            <div className="flex flex-col w-full md:w-auto">
               <label htmlFor="checkOutDate" className="font-medium">
                 Check-Out
               </label>
@@ -202,13 +202,13 @@ const RoomDetails = () => {
                 id="checkOutDate"
                 placeholder="Check-Out"
                 required
-                className="w-full rounded border border-gray-300 px-3 py-2 mt-1.5 outline-none"
+                className="w-full md:w-52 rounded border border-gray-300 px-3 py-2 mt-1.5 outline-none"
               />
             </div>
 
-            <div className="w-px h-15 bg-gray-300/70 max-md:hidden"></div>
+            <div className="hidden md:block w-px h-12 bg-gray-300/70"></div>
 
-            <div className="flex flex-col">
+            <div className="flex flex-col w-full md:w-auto">
               <label htmlFor="Guests" className="font-medium">
                 Guests
               </label>
@@ -220,14 +220,14 @@ const RoomDetails = () => {
                 id="Guests"
                 placeholder="1"
                 required
-                className="max-w-20 rounded border border-gray-300 px-3 py-2 mt-1.5 outline-none"
+                className="w-full md:max-w-[80px] rounded border border-gray-300 px-3 py-2 mt-1.5 outline-none"
               />
             </div>
           </div>
 
           <button
             type="submit"
-            className="bg-primary hover:bg-primary-dull active:scale-95 transition-all text-white rounded-md  max-md:w-full max-md:mt-6 md:px-25 py-3 md:py-4 text-base cursor-pointer "
+            className="bg-primary hover:bg-primary-dull active:scale-95 transition-all text-white rounded-md w-full md:w-auto mt-4 md:mt-0 px-6 py-3 md:py-4 text-base cursor-pointer"
           >
             {isAvailable ? "Book Now" : "Check Availability"}
           </button>

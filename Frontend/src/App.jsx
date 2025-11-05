@@ -13,6 +13,7 @@ import ListRooms from "./pages/hotelOwner/ListRooms";
 import Dashboard from "./pages/hotelOwner/Dashboard";
 import {Toaster} from "react-hot-toast";
 import { useAppContext } from "./context/AppContext";
+import HeroSection from "./components/HeroSection";
 
 const App = () => {
   const isOwnerPath = useLocation().pathname.includes("owner");

@@ -14,10 +14,12 @@ const FeaturedDestination = () => {
         align="center"
       />
 
-      <div className="flex flex-wrap items-center justify-center mt-20 gap-6">
-        {rooms.slice(0, 4).map((room, index) => (
-          <HotelCart key={room._id} room={room} index={index} />
-        ))}
+      <div className="w-full max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-20">
+          {rooms.slice(0, 4).map((room, index) => (
+            <HotelCart key={room._id} room={room} index={index} />
+          ))}
+        </div>
       </div>
       <button
         onClick={() => {

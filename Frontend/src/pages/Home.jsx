@@ -6,16 +6,21 @@ import Testimonials from "../components/Testimonials";
 import NewsLetter from "../components/NewsLetter";
 import Footer from "../components/Footer";
 import RecommendedHotels from "../components/RecommendedHotel";
+import HeroSection from "../components/HeroSection";
+import ServicesSection from "../components/ServicesSection";
 
 const Home = () => {
   return (
     <>
       <Hero />
-      <RecommendedHotels/>
-      <FeaturedDestination/>
-      <ExclusiveOffers/>
-      <Testimonials/>
-      <NewsLetter/>
+      <ServicesSection />
+      <RecommendedHotels />
+      <FeaturedDestination />
+      
+      <HeroSection />
+      <ExclusiveOffers />
+      <Testimonials />
+      <NewsLetter />
     </>
   );
 };

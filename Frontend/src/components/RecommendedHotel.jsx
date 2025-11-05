@@ -41,15 +41,15 @@ const RecommendedHotels = () => {
         align="center"
       />
 
-      <div className="flex flex-wrap items-center justify-center mt-20 gap-6">
+      <div className="w-full max-w-7xl mx-auto">
         {recommended.length > 0 ? (
-          recommended
-            .slice(0, 4)
-            .map((room, index) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-20">
+            {recommended.slice(0, 4).map((room, index) => (
               <HotelCart key={room._id} room={room} index={index} />
-            ))
+            ))}
+          </div>
         ) : (
-          <p className="text-gray-500 text-center">
+          <p className="text-gray-500 text-center mt-6">
             No hotels found in the searched cities.
           </p>
         )}
