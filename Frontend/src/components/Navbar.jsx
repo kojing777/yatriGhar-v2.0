@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { assets } from "../assets/assets";
 import { useClerk, UserButton } from "@clerk/clerk-react";
 import logo from "../assets/yatri.png";
-import { IoSearch } from "react-icons/io5";
 import { useAppContext } from "../context/AppContext";
 
 const BookIcon = () => (
@@ -125,17 +124,24 @@ const Navbar = () => {
 
       {/* Desktop Right */}
       <div className="hidden md:flex items-center gap-3">
-
         {user ? (
-          <UserButton>
-            <UserButton.MenuItems>
-              <UserButton.Action
-                label="My Bookings"
-                labelIcon={<BookIcon />}
-                onClick={() => navigate("/my-bookings")}
-              />
-            </UserButton.MenuItems>
-          </UserButton>
+          <div className="transform scale-125 hover:scale-125 transition-transform duration-300">
+            <UserButton
+              appearance={{
+                elements: {
+                  avatarBox: "rounded-full border-2 border-gray-500 shadow-md",
+                },
+              }}
+            >
+              <UserButton.MenuItems>
+                <UserButton.Action
+                  label="My Bookings"
+                  labelIcon={<BookIcon />}
+                  onClick={() => navigate("/my-bookings")}
+                />
+              </UserButton.MenuItems>
+            </UserButton>
+          </div>
         ) : (
           <button
             onClick={openSignIn}
