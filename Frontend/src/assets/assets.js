@@ -27,7 +27,7 @@ import roomImg1 from './roomImg1.png'
 import roomImg2 from './roomImg2.png'
 import roomImg3 from './roomImg3.png'
 import roomImg4 from './roomImg4.png'
-import regImage from './regImage.png'
+import regImage from './n2.jpg'
 import exclusiveOfferCardImg1 from "./ex1.jpeg";
 import exclusiveOfferCardImg2 from "./ex2.jpeg";
 import exclusiveOfferCardImg3 from "./ex3.jpeg";

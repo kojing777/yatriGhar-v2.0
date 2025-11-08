@@ -12,7 +12,7 @@ const ExclusiveOffers = () => {
   }, []);
 
   return (
-    <section className="flex flex-col items-center px-6 md:px-16 lg:px-24 pt-20 pb-30 bg-white">
+    <section className="flex flex-col items-center px-6 md:px-16 lg:px-24 pt-20 pb-30 bg-slate-50">
       <div className="w-full max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between w-full">
           <Title

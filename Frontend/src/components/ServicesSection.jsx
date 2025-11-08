@@ -1,4 +1,3 @@
-import React from "react";
 import Title from "./Title";
 
 export default function ServicesSection() {
@@ -28,28 +27,28 @@ export default function ServicesSection() {
   ];
 
   return (
-    <section className="flex flex-col items-center py-20 bg-gradient-to-b from-orange-50 to-white px-6 md:px-16 lg:px-24 text-center">
-      <Title title={"We Offer the Best Hospitality Services"} subTitle={"Our Services"} />
-      <div className="h-6" />
+    <section className="flex flex-col items-center py-20 bg-slate-50 px-6 md:px-16 lg:px-24 text-center">
+      <Title title={"Our Services"} subTitle={"We Offer the Best Hospitality Services"} />
+      <div className="h-8" />
 
       <div className="w-full max-w-7xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {services.map((service, index) => (
             <div
               key={index}
-              className={`rounded-2xl p-6 md:p-8 transition-all duration-300 transform ${
+              className={`rounded-xl p-6 md:p-8 transition-all duration-300 transform ${
                 service.highlight
-                  ? "bg-orange-50 border border-orange-200 shadow-xl scale-105"
-                  : "bg-white hover:shadow-xl hover:-translate-y-1"
+                  ? "bg-white/90 backdrop-blur-sm border border-amber-200 shadow-xl scale-105"
+                  : "bg-white/90 backdrop-blur-sm border border-white/20 hover:shadow-xl hover:-translate-y-3 shadow-lg"
               }`}
             >
               <div className="flex items-start gap-4">
                 <div
                   className={`flex-shrink-0 w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center text-2xl ${
                     service.highlight
-                      ? "bg-orange-100 text-orange-600"
-                      : "bg-orange-50 text-orange-600"
-                  } shadow-sm`}
+                      ? "bg-amber-100 text-amber-600"
+                      : "bg-white text-amber-600"
+                  } shadow-sm border-2 border-white/10`}
                 >
                   {service.icon}
                 </div>
