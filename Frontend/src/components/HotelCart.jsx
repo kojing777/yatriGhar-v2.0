@@ -41,17 +41,25 @@ const HotelCart = ({ room, index }) => {
     >
       {/* Image: fixed aspect ratio so all cards match height */}
       {imageUrl ? (
-        <img
-          src={imageUrl}
-          alt={`${room.hotel?.name || "hotel"} image`}
-          className="w-full h-44 sm:h-48 md:h-56 lg:h-64 object-cover"
-        />
+        <div className="relative overflow-hidden group">
+          <img
+            src={imageUrl}
+            alt={`${room.hotel?.name || "hotel"} image`}
+            className="w-full h-44 sm:h-48 md:h-56 lg:h-64 object-cover transform transition-transform duration-700 group-hover:scale-105"
+          />
+
+          <div className="absolute inset-0 bg-gradient-to-t from-black/45 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        </div>
       ) : (
-        <img
-          src={assets.uploadArea}
-          alt="placeholder"
-          className="w-full h-44 sm:h-48 md:h-56 lg:h-64 object-cover"
-        />
+        <div className="relative overflow-hidden group">
+          <img
+            src={assets.uploadArea}
+            alt="placeholder"
+            className="w-full h-44 sm:h-48 md:h-56 lg:h-64 object-cover transform transition-transform duration-700 group-hover:scale-105"
+          />
+
+          <div className="absolute inset-0 bg-gradient-to-t from-black/45 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        </div>
       )}
 
       {index % 2 === 0 && (

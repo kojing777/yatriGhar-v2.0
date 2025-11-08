@@ -80,7 +80,7 @@ const BlogSection = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header Section */}
           <div className="text-center mb-16">
-            <Title title="YatriGhar Travel Blog"
+            <Title title="Travel Blog"
             subTitle="Discover inspiring travel stories, expert guides, and insider tips to make your Indian journey unforgettable." />
           </div>
 

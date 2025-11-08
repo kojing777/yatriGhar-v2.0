@@ -1,6 +1,7 @@
 import React from "react";
 import HotelCart from "./HotelCart";
 import Title from "./Title";
+import { FaArrowRight } from "react-icons/fa";
 import { useAppContext } from "../context/AppContext";
 
 const FeaturedDestination = () => {
@@ -26,9 +27,10 @@ const FeaturedDestination = () => {
             navigate("/rooms");
             scrollTo(0, 0);
           }}
-          className="my-16 px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
+          className="my-16 inline-flex items-center gap-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white px-8 py-4 rounded-2xl font-semibold shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
         >
           View All Destinations
+          <FaArrowRight className="transform group-hover:translate-x-1 transition-transform duration-300" />
         </button>
       </div>
     </div>

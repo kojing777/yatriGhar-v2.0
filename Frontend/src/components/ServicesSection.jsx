@@ -36,10 +36,10 @@ export default function ServicesSection() {
           {services.map((service, index) => (
             <div
               key={index}
-              className={`rounded-xl p-6 md:p-8 transition-all duration-300 transform ${
+              className={`rounded-xl p-6 md:p-8 transition-all duration-200 transform ${
                 service.highlight
-                  ? "bg-white/90 backdrop-blur-sm border border-amber-200 shadow-xl scale-105"
-                  : "bg-white/90 backdrop-blur-sm border border-white/20 hover:shadow-xl hover:-translate-y-3 shadow-lg"
+                  ? "bg-white/90 backdrop-blur-sm border border-amber-200 shadow-xl scale-90"
+                  : "bg-white/150 backdrop-blur-sm border border-white/20 hover:shadow-xl hover:-translate-y-3 shadow-lg"
               }`}
             >
               <div className="flex items-start gap-4">
@@ -47,7 +47,7 @@ export default function ServicesSection() {
                   className={`flex-shrink-0 w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center text-2xl ${
                     service.highlight
                       ? "bg-amber-100 text-amber-600"
-                      : "bg-white text-amber-600"
+                      : "bg-amber-100 text-amber-600"
                   } shadow-sm border-2 border-white/10`}
                 >
                   {service.icon}
@@ -57,7 +57,7 @@ export default function ServicesSection() {
                   <h3 className="text-base md:text-lg font-semibold text-gray-800">
                     {service.title}
                   </h3>
-                  <p className="text-gray-600 mt-2 text-sm md:text-sm leading-relaxed max-w-xs">
+                  <p className="text-gray-900 mt-2 text-sm md:text-sm leading-relaxed max-w-xs">
                     {service.desc}
                   </p>
                 </div>
