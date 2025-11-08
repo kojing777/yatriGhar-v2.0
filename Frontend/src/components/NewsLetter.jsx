@@ -19,15 +19,15 @@ const NewsLetter = () => {
   };
 
   return (
-    <section className="py-16 bg-slate-200/90 px-4 mb-5 sm:px-6 lg:px-8">
+    <section className="py-16 bg-slate-50 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Stay <span className="text-black">Inspired!</span>
+          <h2 className="text-3xl md:text-4xl font-playfair font-bold text-gray-900 mb-4">
+            Stay <span className="text-amber-700">Inspired!</span>
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
             Join our newsletter and be the first to discover new destinations,
-            exclusive offers, and travel inspiration.{" "}
+            exclusive offers, and travel inspiration.
           </p>
         </div>
 
@@ -56,7 +56,7 @@ const NewsLetter = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter your email"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2  focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-300 focus:border-transparent transition-all"
                     required
                   />
                 </div>
@@ -65,9 +65,9 @@ const NewsLetter = () => {
                   disabled={isLoading}
                   className={`w-full py-3 px-6 rounded-lg font-medium transition-all ${
                     isLoading
-                      ? "bg-primary-light cursor-not-allowed"
-                      : "bg-black hover:bg-primary-dark text-white"
-                  } focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 shadow-sm`}
+                      ? "bg-amber-200 cursor-not-allowed text-amber-700"
+                      : "bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 text-white"
+                  } focus:outline-none focus:ring-2 focus:ring-amber-300 focus:ring-offset-2 shadow-sm`}
                 >
                   {isLoading ? "Subscribing..." : "Subscribe Now"}
                 </button>
@@ -79,7 +79,7 @@ const NewsLetter = () => {
           <div className="bg-white rounded-2xl border border-gray-200 p-8 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col">
             <div className="space-y-6">
               <div className="flex items-start gap-4">
-                <div className="bg-primary-light p-3 rounded-lg">
+                <div className="bg-amber-100 p-3 rounded-lg">
                   <LiaBoxOpenSolid className="h-6.5 w-6" />
                 </div>
                 <div>
@@ -94,7 +94,7 @@ const NewsLetter = () => {
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="bg-primary-light p-3 rounded-lg">
+                <div className="bg-amber-100 p-3 rounded-lg">
                   <FaRegHand className="h-5 w-5" />
                 </div>
                 <div>
