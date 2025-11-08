@@ -1,5 +1,6 @@
 import React from "react";
 import { FaArrowRight, FaCalendarAlt, FaClock, FaUser } from "react-icons/fa";
+import Title from "../components/Title";
 
 const BlogSection = () => {
   const blogPosts = [
@@ -79,13 +80,8 @@ const BlogSection = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header Section */}
           <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-playfair font-bold text-gray-900 mb-4">
-              YatriGhar Travel Blog
-            </h1>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-              Discover inspiring travel stories, expert guides, and insider tips to make your Indian journey unforgettable. 
-              From hidden gems to luxury experiences, we've got your travel diary covered.
-            </p>
+            <Title title="YatriGhar Travel Blog"
+            subTitle="Discover inspiring travel stories, expert guides, and insider tips to make your Indian journey unforgettable." />
           </div>
 
           {/* Featured Blog Post */}
