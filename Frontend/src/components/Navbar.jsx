@@ -86,6 +86,14 @@ const Navbar = () => {
           <Link
             key={i}
             to={link.path}
+            onClick={() => {
+              // Ensure About opens scrolled to top. Also safe to call for other links.
+              try {
+                window.scrollTo(0, 0);
+              } catch {
+                /* noop in non-browser environments */
+              }
+            }}
             className={`group flex flex-col gap-0.5 ${
               isScrolled ? "text-gray-700" : "text-white"
             }`}
@@ -187,7 +195,19 @@ const Navbar = () => {
         </button>
 
         {navLinks.map((link, i) => (
-          <Link key={i} to={link.path} onClick={() => setIsMenuOpen(false)}>
+          <Link
+            key={i}
+            to={link.path}
+            onClick={() => {
+              // close mobile menu and scroll to top when navigating to a section
+              setIsMenuOpen(false);
+              try {
+                window.scrollTo(0, 0);
+              } catch {
+                /* noop */
+              }
+            }}
+          >
             {link.name}
           </Link>
         ))}

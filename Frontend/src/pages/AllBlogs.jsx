@@ -11,15 +11,23 @@ const AllBlogs = () => {
   
   useEffect(() => {
     setMounted(true);
+    // ensure we start scrolled to top when navigating to /blogs
+    if (typeof window !== "undefined" && window.scrollTo) {
+      try {
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+      } catch {
+        // fallback for older browsers
+        window.scrollTo(0, 0);
+      }
+    }
   }, []);
 
   const blogPosts = [
     {
       id: 1,
-      title: "Discover India's Hidden Heritage Stays",
-      excerpt: "Explore the untold stories behind India's most preserved heritage properties and royal palaces turned into luxury stays.",
-      image: "https://images.unsplash.com/photo-1586375300773-8384e3e4916f?w=1200&h=800&fit=crop&q=80",
-      category: "Heritage Travel",
+      title: "Discover Nepal's Hidden Heritage Stays",
+      excerpt: "Explore the untold stories behind Nepal's most preserved heritage properties and royal palaces turned into luxury stays.",
+      image: "https://i.pinimg.com/1200x/3f/fe/89/3ffe89496781e7c666b3632a3b4ab643.jpg",
       readTime: "5 min read",
       author: "Travel Curator",
       date: "Dec 15, 2024",
@@ -29,7 +37,7 @@ const AllBlogs = () => {
       id: 2,
       title: "Monsoon Getaways: Best Hill Stations to Visit",
       excerpt: "Experience the magic of monsoon in these breathtaking hill stations with lush greenery and misty mountains.",
-      image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&h=800&fit=crop&q=80",
+      image: "https://i.pinimg.com/736x/dd/c0/84/ddc084c183a8c9a59f53170133a30dd3.jpg",
       category: "Seasonal Guides",
       readTime: "4 min read",
       author: "Mountain Expert",
@@ -39,8 +47,8 @@ const AllBlogs = () => {
     {
       id: 3,
       title: "Cultural Festivals You Can't Miss in 2024",
-      excerpt: "From Rajasthan's vibrant fairs to Kerala's traditional celebrations, immerse yourself in India's rich cultural tapestry.",
-      image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1200&h=800&fit=crop&q=80",
+      excerpt: "From Kathmandu’s lively street parades to Pokhara’s vibrant New Year festivities, immerse yourself in Nepal’s rich cultural heritage and timeless traditions.",
+      image: "https://i.pinimg.com/736x/1c/ab/e9/1cabe972ebc95f0ac65fa3559f89fa00.jpg",
       category: "Cultural Insights",
       readTime: "6 min read",
       author: "Culture Guide",
@@ -49,9 +57,9 @@ const AllBlogs = () => {
     },
     {
       id: 4,
-      title: "Luxury on Wheels: India's Premium Train Journeys",
-      excerpt: "Step aboard these magnificent trains that offer royal experiences while traversing through incredible landscapes.",
-      image: "https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=1200&h=800&fit=crop&q=80",
+      title: "Luxury on Wheels: Nepal’s Premium Scenic Journeys",
+      excerpt: "Embark on breathtaking journeys across Nepal’s majestic landscapes — from the serene hills to the Himalayan foothills — where comfort meets adventure in truly luxurious travel experiences.",
+      image: "https://i.pinimg.com/1200x/63/2c/14/632c14c7b55f738d5b411a7da75bd946.jpg",
       category: "Luxury Travel",
       readTime: "7 min read",
       author: "Railway Connoisseur",
@@ -60,9 +68,9 @@ const AllBlogs = () => {
     },
     {
       id: 5,
-      title: "Beach Paradise: Unexplored Coastal Gems",
-      excerpt: "Discover pristine beaches and coastal retreats away from the tourist crowds for a perfect seaside escape.",
-      image: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=1200&h=800&fit=crop&q=80",
+      title: "Mountain Escapes: Unexplored Himalayan Gems",
+      excerpt: "Discover serene mountain retreats and hidden valleys of Nepal, far from the tourist crowds — perfect for a peaceful escape amid breathtaking Himalayan views.",
+      image: "https://i.pinimg.com/1200x/47/da/2d/47da2d09a9bb2394dd764adc789ab193.jpg",
       category: "Beach Getaways",
       readTime: "5 min read",
       author: "Coastal Explorer",
@@ -71,9 +79,9 @@ const AllBlogs = () => {
     },
     {
       id: 6,
-      title: "Wildlife Sanctuaries: India's Natural Treasures",
-      excerpt: "Embark on thrilling wildlife adventures in India's most renowned national parks and sanctuaries.",
-      image: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=1200&h=800&fit=crop&q=80",
+      title: "Wildlife Sanctuaries: Nepal’s Natural Treasures",
+      excerpt: "Embark on thrilling wildlife adventures in Nepal's most renowned national parks and sanctuaries.",
+      image: "https://i.pinimg.com/1200x/39/b9/93/39b9935b9efbea8b60de86ce0859c93c.jpg",
       category: "Wildlife & Nature",
       readTime: "6 min read",
       author: "Nature Guide",
