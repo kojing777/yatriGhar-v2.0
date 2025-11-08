@@ -1,5 +1,5 @@
 import React from "react";
-import { FaArrowRight, FaCalendarAlt, FaClock, FaUser } from "react-icons/fa";
+import { FaArrowRight, FaCalendarAlt, FaChevronRight, FaClock, FaUser } from "react-icons/fa";
 import Title from "../components/Title";
 
 const BlogSection = () => {
@@ -134,7 +134,7 @@ const BlogSection = () => {
                     
                     <button className="group flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 transform hover:scale-105">
                       Read More
-                      <FaArrowRight className="transform group-hover:translate-x-1 transition-transform duration-300" />
+                      <FaChevronRight className="transform group-hover:translate-x-1 transition-transform duration-300" />
                     </button>
                   </div>
                 </div>
@@ -146,7 +146,7 @@ const BlogSection = () => {
           <div className="text-center mt-16">
             <button className="group inline-flex items-center gap-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white px-8 py-4 rounded-2xl font-semibold shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
               View All Blog Posts
-              <FaArrowRight className="transform group-hover:translate-x-1 transition-transform duration-300" />
+               <FaChevronRight className="transform group-hover:translate-x-1 transition-transform duration-300" />
             </button>
           </div>
         </div>

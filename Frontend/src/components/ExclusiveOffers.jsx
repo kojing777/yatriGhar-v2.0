@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Title from "./Title";
 import { assets, exclusiveOffers } from "../assets/assets";
 import { FaArrowRight } from "react-icons/fa6";
+import { FaChevronRight } from "react-icons/fa";
 
 const ExclusiveOffers = () => {
   const [mounted, setMounted] = useState(false);
@@ -66,11 +67,11 @@ const ExclusiveOffers = () => {
 
           <a
             href="/offers"
-            className="group inline-flex items-center gap-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 text-white px-4 py-2 rounded-xl font-semibold shadow-md transition-transform hover:scale-105"
+            className="my-4 group inline-flex items-center gap-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white px-8 py-4 rounded-2xl font-semibold shadow-lg transition-all duration-500 transform hover:scale-105 hover:shadow-xl self-center md:self-auto mx-auto md:mx-0"
             aria-label="View all offers"
           >
             Grab All Offers
-            <FaArrowRight />
+            <FaChevronRight className="transform group-hover:translate-x-1 transition-transform duration-300" />
           </a>
         </div>
 

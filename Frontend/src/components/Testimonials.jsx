@@ -111,10 +111,10 @@ const Testimonials = () => {
 
         {/* View More Button */}
         <div className="text-center mt-12 md:mt-16 animate-fade-in delay-500">
-          <button className="px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center mx-auto group">
-            Read More Reviews
-            <FaChevronRight className="ml-2 transition-transform duration-300 group-hover:translate-x-1" />
-          </button>
+          <button className="my-4 group inline-flex items-center gap-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white px-8 py-4 rounded-2xl font-semibold shadow-lg transition-all duration-500 transform hover:scale-105 hover:shadow-xl mx-auto">
+              Read More Reviews
+              <FaChevronRight className="transform group-hover:translate-x-1 transition-transform duration-300" />
+            </button>
         </div>
       </div>
 

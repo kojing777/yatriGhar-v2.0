@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Title from "./Title";
 import { FaArrowRight } from "react-icons/fa6";
+import { FaChevronRight } from "react-icons/fa";
 
 const Gallery = () => {
   const [stopScroll, setStopScroll] = useState(false);
@@ -125,21 +126,14 @@ const Gallery = () => {
         </div>
 
         {/* CTA Section */}
-        <div className="text-center mt-16">
+        <div className="text-center">
           <a
             href="/gallery"
-            className="group inline-flex items-center gap-4 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white px-8 py-4 rounded-2xl font-semibold shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl transform"
+            className="my-6 group inline-flex items-center gap-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white px-8 py-4 rounded-2xl font-semibold shadow-lg transition-all duration-500 transform hover:scale-105 hover:shadow-xl mx-auto"
             aria-label="View full gallery"
           >
-            <span className="relative overflow-hidden">
-              <span className="inline-block transform group-hover:translate-y-[-100%] transition-transform duration-300">
-                Explore Full Gallery
-              </span>
-              <span className="absolute top-0 left-0 inline-block transform translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300">
-                Explore Full Gallery
-              </span>
-            </span>
-            <FaArrowRight className="transform group-hover:translate-x-1 transition-transform duration-300" />
+            Explore Full Gallery
+            <FaChevronRight className="transform group-hover:translate-x-1 transition-transform duration-300" />
           </a>
         </div>
       </div>
