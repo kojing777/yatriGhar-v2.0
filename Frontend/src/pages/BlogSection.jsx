@@ -1,5 +1,6 @@
 import React from "react";
 import { FaArrowRight, FaCalendarAlt, FaChevronRight, FaClock, FaUser } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import Title from "../components/Title";
 
 const BlogSection = () => {
@@ -144,10 +145,10 @@ const BlogSection = () => {
 
           {/* CTA Section */}
           <div className="text-center mt-16">
-            <button className="group inline-flex items-center gap-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white px-8 py-4 rounded-2xl font-semibold shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
+            <Link to="/blogs" className="group inline-flex items-center gap-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white px-8 py-4 rounded-2xl font-semibold shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
               View All Blog Posts
                <FaChevronRight className="transform group-hover:translate-x-1 transition-transform duration-300" />
-            </button>
+            </Link>
           </div>
         </div>
       </section>

@@ -52,11 +52,23 @@ const Gallery = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
-        <div className="text-center mb-16">
-          <Title
-            title="YatriGhar Gallery"
-            subTitle="Immerse yourself in breathtaking visuals of our premium stays and unforgettable travel experiences across India"
-          />
+        <div className="mb-12">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between w-full gap-4">
+            <Title
+              align="left"
+              title="YatriGhar Gallery"
+              subTitle="Immerse yourself in breathtaking visuals of our premium stays and unforgettable travel experiences across India"
+            />
+
+            <a
+              href="/gallery"
+              className="my-4 group inline-flex items-center gap-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white px-8 py-4 rounded-2xl font-semibold shadow-lg transition-all duration-500 transform hover:scale-105 hover:shadow-xl self-center md:self-auto mx-auto md:mx-0"
+              aria-label="View full gallery"
+            >
+              Explore Full Gallery
+              <FaChevronRight className="transform group-hover:translate-x-1 transition-transform duration-300" />
+            </a>
+          </div>
         </div>
 
         {/* Marquee Gallery */}
@@ -125,17 +137,7 @@ const Gallery = () => {
           </div>
         </div>
 
-        {/* CTA Section */}
-        <div className="text-center">
-          <a
-            href="/gallery"
-            className="my-6 group inline-flex items-center gap-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white px-8 py-4 rounded-2xl font-semibold shadow-lg transition-all duration-500 transform hover:scale-105 hover:shadow-xl mx-auto"
-            aria-label="View full gallery"
-          >
-            Explore Full Gallery
-            <FaChevronRight className="transform group-hover:translate-x-1 transition-transform duration-300" />
-          </a>
-        </div>
+        {/* bottom CTA removed (now in header) */}
       </div>
     </section>
   );

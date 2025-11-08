@@ -107,16 +107,12 @@ const ExclusiveOffers = () => {
 
               <div className="mt-6 flex items-center justify-between">
                 <button
-                  className="bg-white text-gray-900 px-4 py-2 rounded-md font-medium hover:scale-105 transition-transform"
+                  className="bg-white text-gray-900 px-4 py-2 rounded-md font-medium duration-500 hover:scale-105 transition-transform"
                   aria-label={`View offer: ${item.title}`}
                 >
                   View Offer
                 </button>
-                <img 
-                  src={assets.arrowIcon} 
-                  alt="arrow" 
-                  className="w-5 h-5 invert opacity-90 transform group-hover:translate-x-1 transition-transform" 
-                />
+                <FaChevronRight className="transform group-hover:translate-x-1 transition-transform duration-300" />
               </div>
               
               {/* subtle hover lift */}
