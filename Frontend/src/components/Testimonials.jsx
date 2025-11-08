@@ -15,13 +15,6 @@ import { IoIosRibbon } from "react-icons/io";
 import { GiSuitcase } from "react-icons/gi";
 
 const Testimonials = () => {
-  // State to track liked testimonials
-  const [liked, setLiked] = useState(
-    testimonials.reduce((acc, t) => {
-      acc[t.id] = false;
-      return acc;
-    }, {})
-  );
 
   return (
     <div className="relative overflow-hidden px-4 sm:px-6 md:px-16 lg:px-24 py-16 md:py-20 bg-white/80 backdrop-blur-sm">

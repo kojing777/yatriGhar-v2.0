@@ -4,11 +4,10 @@ import FeaturedDestination from "../components/FeaturedDestination";
 import ExclusiveOffers from "../components/ExclusiveOffers";
 import Testimonials from "../components/Testimonials";
 import NewsLetter from "../components/NewsLetter";
-import Footer from "../components/Footer";
 import RecommendedHotels from "../components/RecommendedHotel";
 import Gallery from "../components/Gallery";
 import ServicesSection from "../components/ServicesSection";
-
+import BlogSection from "../pages/BlogSection";
 const Home = () => {
   return (
     <>
@@ -19,6 +18,7 @@ const Home = () => {
       <ExclusiveOffers />
       <Testimonials />
       <Gallery />
+      <BlogSection />
       <NewsLetter />
     </>
   );

@@ -19,7 +19,7 @@ const NewsLetter = () => {
   };
 
   return (
-    <section className="py-16 bg-blue-200/200 px-4 mb-5 sm:px-6 lg:px-8">
+    <section className="py-16 bg-slate-200/90 px-4 mb-5 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
