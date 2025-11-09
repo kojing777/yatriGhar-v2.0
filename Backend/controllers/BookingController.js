@@ -79,19 +79,36 @@ export const createBooking = async (req, res) => {
         });
 
         // Send confirmation email
-        const mailOptions = {
-            from: process.env.SENDER_EMAIL,
-            to: req.user.email,
-            subject: 'Booking Confirmation',
-            html: `<h1>Tour Booking Details</h1>
-                   <p>Dear ${req.user.username},</p>
-                   <p>Your booking for room ${booking._id} from ${checkInDate} to ${checkOutDate} has been confirmed.</p>
-                   <p>Total Price: $${totalPrice}</p>
-                   <p>Thank you for choosing our service!</p>
-                   <p>Best regards,</p>
-                   <p>YatriGhar Team</p>`
-        };
-        await transporter.sendMail(mailOptions);
+        try {
+            if (!process.env.SENDER_EMAIL) {
+                console.warn('⚠️ SENDER_EMAIL not set, skipping email sending');
+            } else if (!req.user.email) {
+                console.warn('⚠️ User email not found, skipping email sending');
+            } else {
+                const mailOptions = {
+                    from: process.env.SENDER_EMAIL,
+                    to: req.user.email,
+                    subject: 'Booking Confirmation',
+                    html: `<h1>Tour Booking Details</h1>
+                           <p>Dear ${req.user.username},</p>
+                           <p>Your booking for room ${booking._id} from ${checkInDate} to ${checkOutDate} has been confirmed.</p>
+                           <p>Total Price: $${totalPrice}</p>
+                           <p>Thank you for choosing our service!</p>
+                           <p>Best regards,</p>
+                           <p>YatriGhar Team</p>`
+                };
+                await transporter.sendMail(mailOptions);
+                console.log(`✅ Confirmation email sent to ${req.user.email}`);
+            }
+        } catch (emailError) {
+            // Log email error but don't fail the booking creation
+            console.error('❌ Failed to send confirmation email:');
+            console.error('   - Error:', emailError.message);
+            console.error('   - Error code:', emailError.code);
+            console.error('   - Response:', emailError.response);
+            console.error('   - Booking was created successfully despite email failure');
+        }
+        
         res.status(201).json({ success: true, message: "Booking created successfully", booking });
 
     } catch (error) {
