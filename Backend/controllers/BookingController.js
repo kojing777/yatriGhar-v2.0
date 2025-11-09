@@ -93,7 +93,7 @@ export const createBooking = async (req, res) => {
                                                 <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; color: #111827;">
                                                     <div style="max-width:600px;margin:0 auto;padding:24px;background:#ffffff;border-radius:8px;box-shadow:0 4px 20px rgba(2,6,23,0.08);">
                                                         <div style="text-align:center;padding-bottom:12px;">
-                                                            <img src="${process.env.FRONTEND_URL || ''}/assets/yatri.png" alt="YatriGhar" style="height:56px;object-fit:contain;" />
+                                                            <img src="${process.env.FRONTEND_URL || ''}/yatri.png" alt="YatriGhar" style="height:56px;object-fit:contain;" />
                                                         </div>
                                                         <h2 style="color:#0f172a;margin:0 0 8px;font-size:20px">Booking Confirmed — Thank you, ${req.user.username}!</h2>
                                                         <p style="margin:0 0 16px;color:#475569;line-height:1.5">We're delighted to confirm your booking. Below are the key details — we've saved everything for you and look forward to making your stay memorable.</p>
