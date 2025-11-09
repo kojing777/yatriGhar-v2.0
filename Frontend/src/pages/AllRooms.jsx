@@ -2,28 +2,37 @@ import React, { useMemo, useState } from "react";
 import { facilityIcons } from "../assets/assets";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { HiOutlineMapPin } from "react-icons/hi2";
+import { MdOutlineKingBed, MdAttachMoney, MdSwapVert } from "react-icons/md";
 import StarRating from "../components/StarRating";
 import { useAppContext } from "../context/AppContext";
 import Title from "../components/Title";
 
-const CheckBox = ({ label, selected = false, onChange = () => {} }) => {
+const CheckBox = ({ label, selected = false, onChange = () => {}, icon = null }) => {
   return (
     <label className="flex items-center gap-3 cursor-pointer mt-2 text-sm">
       <input
         type="checkbox"
         checked={selected}
         onChange={(e) => onChange(e.target.checked, label)}
+        className="w-4 h-4"
       />
+      {icon && <span className="text-amber-500 w-4 h-4">{icon}</span>}
 
       <span className="font-light select-none">{label}</span>
     </label>
   );
 };
 
-const RadioButton = ({ label, selected = false, onChange = () => {} }) => {
+const RadioButton = ({ label, selected = false, onChange = () => {}, icon = null }) => {
   return (
     <label className="flex items-center gap-3 cursor-pointer mt-2 text-sm">
-      <input type="radio" checked={selected} onChange={() => onChange(label)} />
+      <input
+        type="radio"
+        checked={selected}
+        onChange={() => onChange(label)}
+        className="w-4 h-4"
+      />
+      {icon && <span className="text-amber-500 w-4 h-4">{icon}</span>}
 
       <span className="font-light select-none">{label}</span>
     </label>
@@ -152,13 +161,14 @@ const AllRooms = () => {
   };
 
   return (
-    <div className="flex flex-col-reverse lg:flex-row items-start justify-between pt-28 px-4 md:px-16 lg:px-24 xl:px-32 gap-8 lg:gap-10">
+    <div className="flex flex-col-reverse lg:flex-row  mb-6 items-start justify-between pt-28 px-4 md:px-16 lg:px-24 xl:px-32 gap-8 lg:gap-10">
       {/* left content */}
       <div className="flex-1">
-        <div className="flex flex-col items-center lg:items-start text-center lg:text-left mb-6">
+        <div className="flex flex-col items-start lg:items-start text-start lg:text-left mb-6">
           <Title
             title="Our Rooms"
             subTitle="Take advantage of our limited-time offers and special packages to enhance your stay and create unforgettable memories."
+            align="left"
           />
         </div>
         {filteredRooms.map((room) => (
@@ -167,27 +177,32 @@ const AllRooms = () => {
             className="bg-white/50 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 mb-8 border border-transparent hover:border-amber-100"
           >
             <div className="md:flex">
-              <div
-                className="md:w-1/2 relative cursor-pointer"
-                onClick={() => {
-                  navigate(`/rooms/${room._id}`);
-                  scrollTo(0, 0);
-                }}
-              >
-                <img
-                  src={room.images?.[0]}
-                  alt={room.hotel?.name || "room image"}
-                  className="w-full h-60 md:h-full object-cover"
-                />
-                <div className="absolute top-4 left-4 bg-amber-500 text-white px-3 py-1 rounded-md text-sm font-medium">
-                  {currency}
-                  {room.pricePerNight}/night
-                </div>
-                {room.featured && (
-                  <div className="absolute top-4 right-4 bg-white/80 text-amber-600 px-3 py-1 rounded-md text-sm font-semibold">
-                    Featured
+              <div className="md:w-1/2">
+                <div
+                  className="relative overflow-hidden group cursor-pointer h-60 md:h-full"
+                  onClick={() => {
+                    navigate(`/rooms/${room._id}`);
+                    scrollTo(0, 0);
+                  }}
+                >
+                  <img
+                    src={room.images?.[0]}
+                    alt={room.hotel?.name || "room image"}
+                    className="w-full h-60 md:h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
+                  />
+
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                  <div className="absolute top-4 left-4 bg-amber-500 text-white px-3 py-1 rounded-md text-sm font-medium">
+                    {currency}
+                    {room.pricePerNight}/night
                   </div>
-                )}
+                  {room.featured && (
+                    <div className="absolute top-4 right-4 bg-white/80 text-amber-600 px-3 py-1 rounded-md text-sm font-semibold">
+                      Featured
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div className="md:w-1/2 p-6 flex flex-col justify-between gap-4">
@@ -232,7 +247,7 @@ const AllRooms = () => {
                 </div>
 
                 <div className="flex items-center justify-between mt-4">
-                  <div className="text-sm text-gray-600">
+                  <div className="text-lg text-gray-600">
                     From{" "}
                     <span className="font-semibold text-gray-900">
                       {currency}
@@ -245,7 +260,7 @@ const AllRooms = () => {
                       navigate(`/rooms/${room._id}`);
                       scrollTo(0, 0);
                     }}
-                    className="bg-gradient-to-r from-amber-500 to-amber-600 text-white px-5 py-2 rounded-2xl font-semibold hover:from-amber-600 hover:to-amber-700 transition-all"
+                    className="group inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white px-5 py-2 rounded-2xl font-semibold shadow-md transition-all duration-500 transform hover:scale-105 hover:shadow-xl"
                   >
                     View Details
                   </button>
@@ -284,7 +299,9 @@ const AllRooms = () => {
           } overflow-hidden transition-all duration-700`}
         >
           <div className="px-5 pt-5">
-            <p className="font-medium text-gray-800 pb-2">Popular Filters</p>
+            <p className="font-medium text-gray-800 pb-2 flex items-center gap-2">
+              <MdOutlineKingBed className="text-amber-500 w-5 h-5" /> Popular Filters
+            </p>
             {roomTypes.map((room, index) => (
               <CheckBox
                 key={index}
@@ -293,11 +310,14 @@ const AllRooms = () => {
                 onChange={(checked) =>
                   handleFilterChange(checked, room, "roomTypes")
                 }
+                icon={<MdOutlineKingBed className="w-4 h-4" />}
               />
             ))}
           </div>
           <div className="px-5 pt-5">
-            <p className="font-medium text-gray-800 pb-2">Price Range</p>
+            <p className="font-medium text-gray-800 pb-2 flex items-center gap-2">
+              <MdAttachMoney className="text-amber-500 w-5 h-5" /> Price Range
+            </p>
             {priceRanges.map((range, index) => (
               <CheckBox
                 key={index}
@@ -306,17 +326,21 @@ const AllRooms = () => {
                 onChange={(checked) =>
                   handleFilterChange(checked, range, "priceRange")
                 }
+                icon={<MdAttachMoney className="w-4 h-4" />}
               />
             ))}
           </div>
           <div className="px-5 pt-5 pb-7">
-            <p className="font-medium text-gray-800 pb-2">Sort by</p>
+            <p className="font-medium text-gray-800 pb-2 flex items-center gap-2">
+              <MdSwapVert className="text-amber-500 w-5 h-5" /> Sort by
+            </p>
             {sortOptions.map((option, index) => (
               <RadioButton
                 key={index}
                 label={option}
                 selected={selectedSort === option}
                 onChange={() => handleSortChange(option)}
+                icon={<MdSwapVert className="w-4 h-4" />}
               />
             ))}
           </div>
