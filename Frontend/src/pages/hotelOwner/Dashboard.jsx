@@ -52,7 +52,7 @@ const Dashboard = () => {
             className="max-sm:hidden h-10"
           />
           <div className="flex flex-col sm:ml-4 font-medium">
-            <p className="text-blue-500 text-lg">Total Bookings</p>
+            <p className="text-amber-500 text-lg">Total Bookings</p>
             <p className="text-neutral-500 text-base">
               {dashboardData.totalBookings}
             </p>
@@ -67,7 +67,7 @@ const Dashboard = () => {
             className="max-sm:hidden h-10"
           />
           <div className="flex flex-col sm:ml-4 font-medium">
-            <p className="text-blue-500 text-lg">Total Revenue</p>
+            <p className="text-amber-500 text-lg">Total Revenue</p>
             <p className="text-neutral-500 text-base">
               {currency} {dashboardData.totalRevenue}
             </p>

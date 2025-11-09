@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Title from "./Title";
-import { assets, exclusiveOffers } from "../assets/assets";
-import { FaArrowRight } from "react-icons/fa6";
+import { exclusiveOffers } from "../assets/assets";
 import { FaChevronRight } from "react-icons/fa";
 
 const ExclusiveOffers = () => {

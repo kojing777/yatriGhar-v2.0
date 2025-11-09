@@ -80,7 +80,7 @@ const Hero = () => {
           {/* Search Form */}
           <form
             onSubmit={onSearch}
-              className={`bg-white/95 backdrop-blur-sm rounded-xl p-4 sm:p-6 text-gray-700 shadow-xl border border-white/20 mt-6 w-full max-w-5xl transition-all duration-700 delay-300 ${
+              className={`bg-white/95 backdrop-blur-sm rounded-xl p-4 sm:p-6 text-gray-700 shadow-xl border border-white/20 mt-6 w-full max-w-4xl transition-all duration-700 delay-300 ${
                 mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
           >

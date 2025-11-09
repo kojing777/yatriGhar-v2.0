@@ -7,8 +7,8 @@ const BlogSection = () => {
   const blogPosts = [
     {
       id: 1,
-      title: "Discover India's Hidden Heritage Stays",
-      excerpt: "Explore the untold stories behind India's most preserved heritage properties and royal palaces turned into luxury stays.",
+      title: "Discover Nepal's Hidden Heritage Stays",
+      excerpt: "Explore the untold stories behind Nepal's most preserved heritage properties and royal palaces turned into luxury stays.",
       image: "https://images.unsplash.com/photo-1586375300773-8384e3e4916f?w=800&h=600&fit=crop&q=80",
       category: "Heritage Travel",
       readTime: "5 min read",

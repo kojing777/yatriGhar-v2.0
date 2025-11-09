@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import Title from "./Title";
 import { FaArrowRight } from "react-icons/fa6";
 import { FaChevronRight } from "react-icons/fa";
+import { Link, useNavigate } from 'react-router-dom'
 
 const Gallery = () => {
   const [stopScroll, setStopScroll] = useState(false);
+  const navigate = useNavigate()
   const cardData = [
     {
       title: "Luxury Heritage Stays",
@@ -60,14 +62,15 @@ const Gallery = () => {
               subTitle="Immerse yourself in breathtaking visuals of our premium stays and unforgettable travel experiences across India"
             />
 
-            <a
-              href="/gallery"
+            <Link
+              to="/gallery"
+              state={{ from: 'explore' }}
               className="my-4 group inline-flex items-center gap-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white px-8 py-4 rounded-2xl font-semibold shadow-lg transition-all duration-500 transform hover:scale-105 hover:shadow-xl self-center md:self-auto mx-auto md:mx-0"
               aria-label="View full gallery"
             >
               Explore Full Gallery
               <FaChevronRight className="transform group-hover:translate-x-1 transition-transform duration-300" />
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -95,7 +98,15 @@ const Gallery = () => {
               {[...cardData, ...cardData].map((card, index) => (
                 <div
                   key={index}
-                  className="relative group rounded-2xl overflow-hidden shadow-xl transform transition-all duration-700 hover:scale-105 hover:shadow-2xl"
+                  role="button"
+                  onClick={() => {
+                    // navigate to gallery and tell it we came from explore, plus the original card index
+                    const origIndex = index % cardData.length
+                    navigate('/gallery', { state: { from: 'explore', imageIndex: origIndex } })
+                  }}
+                  tabIndex={0}
+                  onKeyDown={(e) => { if (e.key === 'Enter') { const origIndex = index % cardData.length; navigate('/gallery', { state: { from: 'explore', imageIndex: origIndex } }) } }}
+                  className="relative group rounded-2xl overflow-hidden shadow-xl transform transition-all duration-700 hover:scale-105 hover:shadow-2xl cursor-pointer"
                   style={{
                     width: 'clamp(280px, 20vw, 320px)',
                     height: 'clamp(320px, 25vw, 380px)',
