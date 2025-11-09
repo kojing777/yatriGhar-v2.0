@@ -170,12 +170,12 @@ const RoomDetails = () => {
         {/* checkin checkout form */}
         <form
           onSubmit={onSubmitHandler}
-          className="flex flex-col md:flex-row items-start md:items-center justify-between bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.15)] p-4 md:p-6 rounded-xl mx-auto mt-12 max-w-6xl"
+          className="flex flex-col md:flex-row items-start md:items-center justify-between bg-white/20 shadow-[0px_0px_20px_rgba(0,0,0,0.15)] p-4 md:p-6 rounded-xl mx-auto mt-12 max-w-6xl"
           action=""
         >
-          <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-10 text-amber-600 font-medium w-full">
+          <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-10 text-gray-600 font-medium w-full">
             <div className="flex flex-col w-full md:w-auto">
-              <label htmlFor="checkInDate" className="font-medium">
+              <label htmlFor="checkInDate" className="font-medium text-amber-500">
                 Check-in
               </label>
 
@@ -193,7 +193,7 @@ const RoomDetails = () => {
             {/* check out  */}
             <div className="hidden md:block w-px h-12 bg-gray-300/70"></div>
             <div className="flex flex-col w-full md:w-auto">
-              <label htmlFor="checkOutDate" className="font-medium">
+              <label htmlFor="checkOutDate" className="font-medium text-amber-500">
                 Check-Out
               </label>
 
@@ -212,7 +212,7 @@ const RoomDetails = () => {
             <div className="hidden md:block w-px h-12 bg-gray-300/70"></div>
 
             <div className="flex flex-col w-full md:w-auto">
-              <label htmlFor="Guests" className="font-medium">
+              <label htmlFor="Guests" className="font-medium text-amber-500">
                 Guests
               </label>
 
