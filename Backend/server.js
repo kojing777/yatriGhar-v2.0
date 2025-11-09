@@ -3,6 +3,7 @@ import 'dotenv/config';
 import cors from 'cors';
 import connectDB from './configs/db.js';
 import { stripeWebhook } from './controllers/stripeWebhook.js';
+import { sendEmail } from './configs/brevoMailer.js';
 import { clerkMiddleware } from '@clerk/express';
 import clerkWebhooks from './controllers/ClerkWebHooks.js';
 import userRouter from './routes/userRoutes.js';
@@ -58,6 +59,30 @@ app.use(clerkMiddleware());
 app.get('/', (req, res) => 
   res.send('Backend connected successfully!')
 );
+
+// Test route to send an email via Brevo API helper
+app.post('/send-test-email', async (req, res) => {
+  try {
+    // Allow overriding via request body for quick testing
+    const { to = 'testuser@example.com', subject, html, text } = req.body || {};
+
+    await sendEmail({
+      to,
+      subject: subject || '🎉 Test Email from Backend via Brevo API',
+      html: html || '<h1>Hello from Brevo API!</h1><p>This is a test email.</p>',
+      text: text || 'Hello from Brevo API!'
+    });
+
+    res.json({ success: true, message: 'Email sent successfully!' });
+  } catch (error) {
+    console.error('send-test-email error:', error?.response?.data || error?.message || error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to send email',
+      error: error?.response?.data || error?.message || String(error)
+    });
+  }
+});
 
 // Health check endpoint for webhook testing
 app.get('/api/stripe/webhook/test', (req, res) => {

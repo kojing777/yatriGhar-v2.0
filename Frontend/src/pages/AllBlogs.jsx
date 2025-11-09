@@ -8,6 +8,7 @@ import { MdKeyboardArrowLeft } from "react-icons/md";
 const AllBlogs = () => {
   const [mounted, setMounted] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [activeCategory, setActiveCategory] = useState("");
   
   useEffect(() => {
     setMounted(true);
@@ -95,11 +96,23 @@ const AllBlogs = () => {
     "Cultural Insights", "Beach Getaways", "Wildlife & Nature", "Adventure Travel"
   ];
 
-  const filteredPosts = blogPosts.filter(post =>
-    post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    post.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    post.excerpt.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredPosts = blogPosts.filter(post => {
+    const term = (searchTerm || "").trim().toLowerCase();
+    const cat = (activeCategory || "").trim().toLowerCase();
+
+    // Safe access to optional fields
+    const title = (post.title || "").toLowerCase();
+    const category = (post.category || "").toLowerCase();
+    const excerpt = (post.excerpt || "").toLowerCase();
+
+    const matchesSearch = term
+      ? title.includes(term) || category.includes(term) || excerpt.includes(term)
+      : true;
+
+    const matchesCategory = cat ? category === cat : true;
+
+    return matchesSearch && matchesCategory;
+  });
 
   return (
     <section className="min-h-screen mt-14 bg-gradient-to-br from-slate-50 via-amber-50/20 to-slate-100 py-12">
@@ -237,11 +250,19 @@ const AllBlogs = () => {
                   Popular Topics
                 </h4>
                 <ul className="space-y-3">
+                  <li>
+                    <button
+                      onClick={() => { setActiveCategory(""); setSearchTerm(""); }}
+                      className={`w-full text-left text-sm px-3 py-2 rounded-lg transition-all duration-300 ${activeCategory === "" ? 'bg-amber-50 text-amber-600 font-semibold' : 'text-slate-600 hover:text-amber-600 hover:bg-amber-50'}`}
+                    >
+                      All Topics
+                    </button>
+                  </li>
                   {categories.map((category, index) => (
                     <li key={index}>
                       <button 
-                        onClick={() => setSearchTerm(category)}
-                        className="w-full text-left text-sm text-slate-600 hover:text-amber-600 px-3 py-2 rounded-lg hover:bg-amber-50 transition-all duration-300 transform hover:translate-x-2"
+                        onClick={() => { setActiveCategory(category); setSearchTerm(""); }}
+                        className={`w-full text-left text-sm px-3 py-2 rounded-lg transition-all duration-300 ${activeCategory === category ? 'bg-amber-50 text-amber-600 font-semibold' : 'text-slate-600 hover:text-amber-600 hover:bg-amber-50'}`}
                       >
                         {category}
                       </button>

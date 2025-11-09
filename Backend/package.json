@@ -14,6 +14,7 @@
   "dependencies": {
     "@clerk/clerk-react": "^5.53.4",
     "@clerk/express": "^1.7.6",
+    "axios": "^1.13.2",
     "cloudinary": "^2.7.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.0",

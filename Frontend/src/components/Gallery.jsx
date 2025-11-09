@@ -59,7 +59,7 @@ const Gallery = () => {
             <Title
               align="left"
               title="YatriGhar Gallery"
-              subTitle="Immerse yourself in breathtaking visuals of our premium stays and unforgettable travel experiences across India"
+              subTitle="Immerse yourself in breathtaking visuals of our premium stays and unforgettable travel experiences across Nepal."
             />
 
             <Link
