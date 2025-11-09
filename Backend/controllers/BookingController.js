@@ -93,11 +93,8 @@ export const createBooking = async (req, res) => {
         res.status(201).json({ success: true, message: "Booking created successfully", booking });
 
     } catch (error) {
-        // log full error for debugging (stack included)
-        console.error('createBooking error:', error && error.stack ? error.stack : error);
-        // return the real error message to client in dev; keep generic in production
-        const clientMessage = process.env.NODE_ENV === 'production' ? 'Failed to create booking' : error.message;
-        res.status(500).json({ success: false, message: clientMessage });
+        console.error(error.message);
+        res.status(500).json({ success: false, message: 'Failed to create booking' });
     }
 };
 
