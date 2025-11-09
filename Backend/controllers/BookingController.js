@@ -4,7 +4,6 @@ import Room from "../models/Room.js";
 import transporter from "../configs/nodemailer.js";
 import Stripe from 'stripe';
 
-
 //function to check availability of rooms
 // Accepts an object { checkInDate, checkOutDate, room }
 const checkAvailability = async ({ checkInDate, checkOutDate, room }) => {
@@ -95,7 +94,7 @@ export const createBooking = async (req, res) => {
                                                         <div style="text-align:center;padding-bottom:12px;">
                                                             <img src="${process.env.FRONTEND_URL || ''}/yatri.png" alt="YatriGhar" style="height:56px;object-fit:contain;" />
                                                         </div>
-                                                        <h2 style="color:#0f172a;margin:0 0 8px;font-size:20px">Booking Confirmed — Thank you, ${req.user.username}!</h2>
+                                                        <h2 style="color:#0f172a;margin:0 0 8px;font-size:20px">Booking Confirmed. Thank you, ${req.user.username}!</h2>
                                                         <p style="margin:0 0 16px;color:#475569;line-height:1.5">We're delighted to confirm your booking. Below are the key details — we've saved everything for you and look forward to making your stay memorable.</p>
 
                                                         <table style="width:100%;border-collapse:collapse;margin-bottom:18px;font-size:14px;color:#334155">
