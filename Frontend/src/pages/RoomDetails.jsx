@@ -7,8 +7,7 @@ import toast from "react-hot-toast";
 
 const RoomDetails = () => {
   const { id } = useParams();
-  const { rooms, navigate, getToken, axios } = useAppContext();
-  // Assuming you want to use the room ID from the URL
+  const { rooms, navigate, getToken, axios, currency } = useAppContext();
   const [room, setRoom] = useState(null); // State to hold room data
   const [mainImage, setMainImage] = useState(null); // State for main image URL
   const [checkInDate, setCheckInDate] = useState(null);
@@ -161,7 +160,7 @@ const RoomDetails = () => {
             </div>
           </div>
           {/* room price */}
-          <p className="text-2xl font-medium">${room.pricePerNight}/Night</p>
+          <p className="text-2xl font-medium">{currency}{room.pricePerNight}/Night</p>
         </div>
 
         {/* checkin checkout form */}

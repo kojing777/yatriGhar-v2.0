@@ -1,6 +1,4 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
-import { assets } from '../../assets/assets'
 import { UserButton } from '@clerk/clerk-react'
 import logo from '../../assets/yatri.png'
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Title from "../../components/Title";
 import { useAppContext } from "../../context/AppContext";
 import { assets } from "../../assets/assets";

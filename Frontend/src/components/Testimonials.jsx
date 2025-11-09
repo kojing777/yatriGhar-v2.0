@@ -10,8 +10,10 @@ import {
 } from "react-icons/fa";
 import { GiSuitcase } from "react-icons/gi";
 import Title from "./Title";
+import { useNavigate } from 'react-router-dom';
 
 const Testimonials = () => {
+  const navigate = useNavigate();
   return (
     <div className="relative overflow-hidden px-4 sm:px-6 md:px-16 lg:px-24 py-16 md:py-20 bg-white/80 backdrop-blur-sm">
       {/* Decorative elements */}
@@ -100,7 +102,7 @@ const Testimonials = () => {
 
         {/* View More Button */}
         <div className="text-center mt-12 md:mt-16 animate-fade-in delay-500">
-          <button className="my-4 group inline-flex items-center gap-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white px-8 py-4 rounded-2xl font-semibold shadow-lg transition-all duration-500 transform hover:scale-105 hover:shadow-xl mx-auto">
+          <button onClick={() => navigate('/reviews')} className="my-4 group inline-flex items-center gap-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white px-8 py-4 rounded-2xl font-semibold shadow-lg transition-all duration-500 transform hover:scale-105 hover:shadow-xl mx-auto">
             Read More Reviews
             <FaChevronRight className="transform group-hover:translate-x-1 transition-transform duration-300" />
           </button>

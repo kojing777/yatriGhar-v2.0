@@ -7,6 +7,8 @@ import toast from "react-hot-toast";
 const MyBookings = () => {
   const { user, axios, getToken, currency } = useAppContext();
   const [bookings, setBookings] = useState([]);
+  const [activeReviewBooking, setActiveReviewBooking] = useState(null);
+  const [reviewText, setReviewText] = useState("");
 
   const fetchUserBookings = async () => {
     try {
@@ -27,6 +29,7 @@ const MyBookings = () => {
     if (user) {
       fetchUserBookings();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   // Refresh bookings when component becomes visible (e.g., returning from payment)
@@ -49,6 +52,7 @@ const MyBookings = () => {
     return () => {
       window.removeEventListener('focus', handleFocus);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const handlePayment = async (bookingId) => {
@@ -166,6 +170,67 @@ const MyBookings = () => {
                 </button>
               )}
             </div>
+              <div className="flex flex-col items-start justify-center pt-3">
+                {!activeReviewBooking || activeReviewBooking !== booking._id ? (
+                  <button
+                    onClick={() => { setActiveReviewBooking(booking._id); setReviewText(''); }}
+                    className="mt-4 px-4 py-1.5 text-xs border border-gray-300 rounded-full hover:bg-gray-50 transition-all cursor-pointer"
+                  >
+                    Leave a Review
+                  </button>
+                ) : (
+                  <div className="mt-4 w-full">
+                    <textarea
+                      value={reviewText}
+                      onChange={(e) => setReviewText(e.target.value)}
+                      placeholder="Write your review here..."
+                      className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-200"
+                      rows={4}
+                    />
+                    <div className="flex gap-2 mt-2">
+                      <button
+                        onClick={async () => {
+                          try {
+                            // Save review to localStorage
+                            const reviewsKey = 'yatri_reviews';
+                            const existing = JSON.parse(localStorage.getItem(reviewsKey) || '[]');
+                            const newReview = {
+                              id: Date.now(),
+                              bookingId: booking._id,
+                              hotelId: booking.hotel?._id || booking.hotel,
+                              hotelName: booking.hotel?.name || '',
+                              user: user?.username || user?.email || 'Guest',
+                              text: reviewText.trim(),
+                              createdAt: new Date().toISOString(),
+                            };
+                            if (!newReview.text) {
+                              toast.error('Review cannot be empty');
+                              return;
+                            }
+                            existing.unshift(newReview);
+                            localStorage.setItem(reviewsKey, JSON.stringify(existing));
+                            toast.success('Review saved locally');
+                            setActiveReviewBooking(null);
+                            setReviewText('');
+                          } catch (err) {
+                            console.error('Save review error', err);
+                            toast.error('Failed to save review');
+                          }
+                        }}
+                        className="px-4 py-2 bg-amber-500 text-white rounded-lg"
+                      >
+                        Submit
+                      </button>
+                      <button
+                        onClick={() => { setActiveReviewBooking(null); setReviewText(''); }}
+                        className="px-4 py-2 border rounded-lg"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
           </div>
         ))}
       </div>

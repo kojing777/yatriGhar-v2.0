@@ -4,6 +4,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { HiOutlineMapPin } from "react-icons/hi2";
 import StarRating from "../components/StarRating";
 import { useAppContext } from "../context/AppContext";
+import Title from "../components/Title";
 
 const CheckBox = ({ label, selected = false, onChange = () => {} }) => {
   return (
@@ -124,7 +125,9 @@ const AllRooms = () => {
     const filteredDestination = (room) => {
       const destination = searchParams.get("destination");
       if (!destination) return true;
-      return room.hotel?.city?.toLowerCase().includes(destination.toLowerCase());
+      return room.hotel?.city
+        ?.toLowerCase()
+        .includes(destination.toLowerCase());
     };
 
     return rooms
@@ -149,72 +152,111 @@ const AllRooms = () => {
   };
 
   return (
-    <div className="flex flex-col-reverse lg:flex-row items-start justify-between pt-28 px-4 md:px-16 lg:px-24 xl:px-32">
+    <div className="flex flex-col-reverse lg:flex-row items-start justify-between pt-28 px-4 md:px-16 lg:px-24 xl:px-32 gap-8 lg:gap-10">
       {/* left content */}
-      <div>
-        <div className="flex flex-col items-start text-left">
-          <h1 className="font-playfair text-4xl md:text-[40px]">Our Rooms</h1>
-          <p className="text-sm md:text-base text-gray-500/90 mt-2">
-            Take advantage of our limited-time offers and special packages to
-            enhance your stay and create unforgettable memories.
-          </p>
+      <div className="flex-1">
+        <div className="flex flex-col items-center lg:items-start text-center lg:text-left mb-6">
+          <Title
+            title="Our Rooms"
+            subTitle="Take advantage of our limited-time offers and special packages to enhance your stay and create unforgettable memories."
+          />
         </div>
         {filteredRooms.map((room) => (
-          <div
+          <article
             key={room._id}
-            className="flex flex-col md:flex-row items-start py-10 gap-6 border-b border-gray-300 last:pb-30 last:border-0"
+            className="bg-white/50 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 mb-8 border border-transparent hover:border-amber-100"
           >
-            <img
-              onClick={() => {
-                navigate(`/rooms/${room._id}`);
-                scrollTo(0, 0);
-              }}
-              src={room.images[0]}
-              alt="hotel-img"
-              title="view room Details"
-              className="max-h-65 md:w-1/2 rounded-xl shadow-lg object-cover cursor-pointer"
-            />
-            <div className="mt-4 md:w-1/2 flex flex-col gap-2">
-              <p className="text-gray-500">{room.hotel?.city || "Unknown City"}</p>
-              <p
+            <div className="md:flex">
+              <div
+                className="md:w-1/2 relative cursor-pointer"
                 onClick={() => {
-                  navigate(`/rooms/${room.id}`);
+                  navigate(`/rooms/${room._id}`);
                   scrollTo(0, 0);
                 }}
-                className="text-gray-800 text-3xl font-playfair cursor-pointer"
               >
-                {room.hotel?.name || "Unknown Hotel"}
-              </p>
-              <div className="flex items-center">
-                <StarRating />
-                <p className="ml-2">200+ reviews</p>
-              </div>
-              <div className="flex items-center gap-1 text-gray-500 mt-2 text-sm">
-                <HiOutlineMapPin className="h-4 w-4" />
-                <span>{room.hotel?.address || "Unknown Address"}</span>
-              </div>
-              {/* room aminities */}
-              <div className="flex flex-wrap items-center mb-6 gap-4 mt-3">
-                {room.amenities.map((item, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center gap-2 px-3 py-3 rounded-lg bg-[#f5f5ff]/70"
-                  >
-                    <img src={facilityIcons[item]} alt="" className="w-5 h-5" />
-                    <p className="text-sm">{item}</p>
+                <img
+                  src={room.images?.[0]}
+                  alt={room.hotel?.name || "room image"}
+                  className="w-full h-60 md:h-full object-cover"
+                />
+                <div className="absolute top-4 left-4 bg-amber-500 text-white px-3 py-1 rounded-md text-sm font-medium">
+                  {currency}
+                  {room.pricePerNight}/night
+                </div>
+                {room.featured && (
+                  <div className="absolute top-4 right-4 bg-white/80 text-amber-600 px-3 py-1 rounded-md text-sm font-semibold">
+                    Featured
                   </div>
-                ))}
+                )}
               </div>
-              {/* room price per night */}
-              <p className="text-xl font-medium text-gray-700">
-                {currency}{room.pricePerNight}/night
-              </p>
+
+              <div className="md:w-1/2 p-6 flex flex-col justify-between gap-4">
+                <div>
+                  <p className="text-sm text-amber-600 font-medium">
+                    {room.hotel?.city || "Unknown City"}
+                  </p>
+                  <h3
+                    onClick={() => {
+                      navigate(`/rooms/${room._id}`);
+                      scrollTo(0, 0);
+                    }}
+                    className="text-2xl md:text-3xl font-playfair text-gray-900 cursor-pointer hover:text-amber-600 transition-colors"
+                  >
+                    {room.hotel?.name || "Unknown Hotel"}
+                  </h3>
+
+                  <div className="flex items-center gap-3 mt-3 text-sm text-gray-500">
+                    <StarRating />
+                    <span className="text-xs">200+ reviews</span>
+                    <span className="flex items-center gap-1">
+                      <HiOutlineMapPin className="h-4 w-4 text-amber-400" />
+                      {room.hotel?.address || "Unknown Address"}
+                    </span>
+                  </div>
+
+                  <div className="mt-4 flex flex-wrap gap-3">
+                    {room.amenities?.slice(0, 6).map((item, idx) => (
+                      <span
+                        key={idx}
+                        className="inline-flex items-center gap-2 bg-amber-50 text-amber-700 px-3 py-1 rounded-full text-sm"
+                      >
+                        <img
+                          src={facilityIcons[item]}
+                          alt=""
+                          className="w-4 h-4"
+                        />
+                        <span>{item}</span>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between mt-4">
+                  <div className="text-sm text-gray-600">
+                    From{" "}
+                    <span className="font-semibold text-gray-900">
+                      {currency}
+                      {room.pricePerNight}
+                    </span>{" "}
+                    / night
+                  </div>
+                  <button
+                    onClick={() => {
+                      navigate(`/rooms/${room._id}`);
+                      scrollTo(0, 0);
+                    }}
+                    className="bg-gradient-to-r from-amber-500 to-amber-600 text-white px-5 py-2 rounded-2xl font-semibold hover:from-amber-600 hover:to-amber-700 transition-all"
+                  >
+                    View Details
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
+          </article>
         ))}
       </div>
       {/* filters */}
-      <div className="bg-white  w-80 border border-gray-300 text-gray-600 max-lg:mb-8 min-lg:mt-16">
+      <div className="bg-white w-full lg:w-80 border border-gray-300 text-gray-600 max-lg:mb-8 min-lg:mt-16 lg:sticky lg:top-28 lg:self-start lg:max-h-[calc(100vh-7rem)] lg:overflow-auto">
         <div
           className={`flex items-center justify-between px-5 py-2.5 min-lg:border-b ${
             openFilters && "border-b"
