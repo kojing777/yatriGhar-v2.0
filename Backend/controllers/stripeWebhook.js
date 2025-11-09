@@ -67,10 +67,53 @@ export const stripeWebhook = async (request, response) => {
                 const trimmedBookingId = bookingId.trim();
                 console.log(`   - Trimmed bookingId: ${trimmedBookingId}`);
                 
+                // Validate bookingId format (MongoDB ObjectId is 24 hex characters)
+                if (!/^[0-9a-fA-F]{24}$/.test(trimmedBookingId)) {
+                    console.error(`❌ Invalid booking ID format: ${trimmedBookingId}`);
+                    console.error(`   - Booking ID must be a valid MongoDB ObjectId (24 hex characters)`);
+                    return response.status(200).json({ received: true });
+                }
+                
                 // Try to find the booking first to verify it exists
                 const existingBooking = await Booking.findById(trimmedBookingId);
                 if (!existingBooking) {
                     console.error(`❌ Booking ${trimmedBookingId} not found in database`);
+                    console.error(`   - Session ID: ${session.id}`);
+                    console.error(`   - Amount paid: ${session.amount_total ? session.amount_total / 100 : 'N/A'} ${session.currency || 'N/A'}`);
+                    
+                    // List a few recent bookings for debugging
+                    const recentBookings = await Booking.find().sort({ createdAt: -1 }).limit(5).select('_id createdAt totalPrice');
+                    console.error(`   - Recent booking IDs in database:`, recentBookings.map(b => ({
+                        id: b._id.toString(),
+                        createdAt: b.createdAt,
+                        totalPrice: b.totalPrice
+                    })));
+                    
+                    // Try to find booking by matching amount and recent date (within last hour)
+                    if (session.amount_total) {
+                        const amountInDollars = session.amount_total / 100;
+                        const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+                        const matchingBooking = await Booking.findOne({
+                            totalPrice: amountInDollars,
+                            createdAt: { $gte: oneHourAgo },
+                            isPaid: false
+                        });
+                        
+                        if (matchingBooking) {
+                            console.log(`   - Found potential matching booking by amount: ${matchingBooking._id}`);
+                            console.log(`   - Updating this booking instead...`);
+                            const updatedBooking = await Booking.findByIdAndUpdate(
+                                matchingBooking._id,
+                                { isPaid: true, paymentStatus: 'stripe' },
+                                { new: true, runValidators: true }
+                            );
+                            if (updatedBooking) {
+                                console.log(`✅ Booking ${matchingBooking._id} successfully marked as paid (matched by amount)`);
+                                return response.status(200).json({ received: true });
+                            }
+                        }
+                    }
+                    
                     return response.status(200).json({ received: true });
                 }
                 
@@ -149,14 +192,52 @@ export const stripeWebhook = async (request, response) => {
                 const trimmedBookingId = bookingId.trim();
                 console.log(`   - Trimmed bookingId: ${trimmedBookingId}`);
                 
+                // Validate bookingId format (MongoDB ObjectId is 24 hex characters)
+                if (!/^[0-9a-fA-F]{24}$/.test(trimmedBookingId)) {
+                    console.error(`❌ Invalid booking ID format: ${trimmedBookingId}`);
+                    console.error(`   - Booking ID must be a valid MongoDB ObjectId (24 hex characters)`);
+                    return response.status(200).json({ received: true });
+                }
+                
                 // Try to find the booking first to verify it exists
                 const existingBooking = await Booking.findById(trimmedBookingId);
                 if (!existingBooking) {
                     console.error(`❌ Booking ${trimmedBookingId} not found in database`);
                     console.error(`   - Attempted to find booking with ID: ${trimmedBookingId}`);
+                    console.error(`   - PaymentIntent ID: ${paymentIntentId}`);
+                    console.error(`   - Amount paid: ${paymentIntent.amount / 100} ${paymentIntent.currency}`);
+                    
                     // List a few recent bookings for debugging
-                    const recentBookings = await Booking.find().sort({ createdAt: -1 }).limit(5).select('_id');
-                    console.error(`   - Recent booking IDs in database:`, recentBookings.map(b => b._id.toString()));
+                    const recentBookings = await Booking.find().sort({ createdAt: -1 }).limit(5).select('_id createdAt totalPrice');
+                    console.error(`   - Recent booking IDs in database:`, recentBookings.map(b => ({
+                        id: b._id.toString(),
+                        createdAt: b.createdAt,
+                        totalPrice: b.totalPrice
+                    })));
+                    
+                    // Try to find booking by matching amount and recent date (within last hour)
+                    const amountInDollars = paymentIntent.amount / 100;
+                    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+                    const matchingBooking = await Booking.findOne({
+                        totalPrice: amountInDollars,
+                        createdAt: { $gte: oneHourAgo },
+                        isPaid: false
+                    });
+                    
+                    if (matchingBooking) {
+                        console.log(`   - Found potential matching booking by amount: ${matchingBooking._id}`);
+                        console.log(`   - Updating this booking instead...`);
+                        const updatedBooking = await Booking.findByIdAndUpdate(
+                            matchingBooking._id,
+                            { isPaid: true, paymentStatus: 'stripe' },
+                            { new: true, runValidators: true }
+                        );
+                        if (updatedBooking) {
+                            console.log(`✅ Booking ${matchingBooking._id} successfully marked as paid (matched by amount)`);
+                            return response.status(200).json({ received: true });
+                        }
+                    }
+                    
                     return response.status(200).json({ received: true });
                 }
                 
