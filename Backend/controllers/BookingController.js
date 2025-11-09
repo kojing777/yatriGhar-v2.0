@@ -76,21 +76,27 @@ export const createBooking = async (req, res) => {
             paymentMethod: chosenPaymentMethod,
         });
 
-        // Send confirmation email
+        // Send confirmation email (fire-and-forget): don't block booking creation if email fails.
         const mailOptions = {
             from: process.env.SENDER_EMAIL,
-            to: req.user.email,
+            to: req.user?.email,
             subject: 'Booking Confirmation',
             html: `<h1>Tour Booking Details</h1>
-                   <p>Dear ${req.user.username},</p>
+                   <p>Dear ${req.user?.username || 'Guest'},</p>
                    <p>Your booking for room ${booking._id} from ${checkInDate} to ${checkOutDate} has been confirmed.</p>
                    <p>Total Price: $${totalPrice}</p>
                    <p>Thank you for choosing our service!</p>
                    <p>Best regards,</p>
                    <p>YatriGhar Team</p>`
         };
-        await transporter.sendMail(mailOptions);
+
+        // Respond to client immediately; send email in background and log any errors.
         res.status(201).json({ success: true, message: "Booking created successfully", booking });
+
+        // Send email asynchronously; do not await to avoid turning email errors into booking failures.
+        transporter.sendMail(mailOptions).catch((err) => {
+            console.error('Booking email send error:', err && err.message ? err.message : err);
+        });
 
     } catch (error) {
         console.error(error.message);

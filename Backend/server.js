@@ -17,7 +17,11 @@ connectDB();
 connectCloudinary();
 
 const app = express();
-app.use(cors());
+// Restrict CORS in dev to the frontend origin and allow credentials if needed.
+// Set CORS_ORIGIN in Render to your production frontend origin.
+app.use(cors({ origin: process.env.CORS_ORIGIN || 'http://localhost:5173', credentials: true }));
+// Preflight handler for complex requests
+app.options('*', cors({ origin: process.env.CORS_ORIGIN || 'http://localhost:5173', credentials: true }));
 app.use(express.json());
 
 // Clerk middleware
