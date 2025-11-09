@@ -145,14 +145,32 @@ export const stripePayment = async (req, res) => {
     try {
         const {bookingId} = req.body;
 
+        if (!bookingId) {
+            return res.status(400).json({ success: false, message: 'Booking ID is required' });
+        }
+
         const booking = await Booking.findById(bookingId);
+        if (!booking) {
+            return res.status(404).json({ success: false, message: 'Booking not found' });
+        }
+
         const roomData = await Room.findById(booking.room).populate('hotel');
+        if (!roomData) {
+            return res.status(404).json({ success: false, message: 'Room not found' });
+        }
+
         const totalPrice = booking.totalPrice;
 
-    const { origin } = req.headers || {};
+        // Get origin from headers or use environment variable as fallback
+        const origin = req.headers.origin || req.headers.referer?.split('/').slice(0, 3).join('/') || process.env.FRONTEND_URL || 'http://localhost:5173';
 
-    // Initialize Stripe with the secret key
-    const stripeInstance = new Stripe(process.env.STRIPE_SECRET_KEY);
+        // Initialize Stripe with the secret key
+        if (!process.env.STRIPE_SECRET_KEY) {
+            console.error('STRIPE_SECRET_KEY is not set in environment variables');
+            return res.status(500).json({ success: false, message: 'Stripe configuration error' });
+        }
+
+        const stripeInstance = new Stripe(process.env.STRIPE_SECRET_KEY);
 
         const line_items = [
             {
@@ -161,28 +179,34 @@ export const stripePayment = async (req, res) => {
                     product_data: {
                         name: `Booking for ${roomData.name} at ${roomData.hotel.name}`,
                     },
-                    unit_amount: totalPrice * 100, // amount in cents
+                    unit_amount: Math.round(totalPrice * 100), // amount in cents, ensure it's an integer
                 },
                 quantity: 1,
             },
         ];
+        
+        // Convert bookingId to string for metadata
+        const bookingIdString = bookingId.toString();
+        
         // Create a new Stripe Checkout session
-    const session = await stripeInstance.checkout.sessions.create({
-            // payment_method_types: ['card'],
+        const session = await stripeInstance.checkout.sessions.create({
             line_items,
             mode: 'payment',
             success_url: `${origin}/loader/my-bookings`,
             cancel_url: `${origin}/my-bookings`,
             // Attach bookingId to the Checkout Session metadata AND to the underlying PaymentIntent
             metadata: {
-                bookingId,
+                bookingId: bookingIdString,
             },
             payment_intent_data: {
                 metadata: {
-                    bookingId,
+                    bookingId: bookingIdString,
                 },
             },
+            // Add customer email if available
+            customer_email: req.user?.email || undefined,
         });
+        
         res.status(200).json({ success: true, url: session.url });
     } catch (error) {
         console.error('stripePayment error:', error?.message || error);

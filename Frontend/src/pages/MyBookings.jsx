@@ -31,23 +31,25 @@ const MyBookings = () => {
 
   const handlePayment = async (bookingId) => {
     try {
+      const token = await getToken();
       const { data } = await axios.post(
         "/api/booking/stripe-payment",
         { bookingId },
         {
           headers: {
-            Authorization: `Bearer ${await getToken()}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
-      if (data.success) {
+      if (data.success && data.url) {
         window.location.href = data.url;
       } else {
-        toast.error("Error initiating payment");
+        toast.error(data.message || "Error initiating payment");
       }
     } catch (error) {
       console.error("Payment initiation error:", error);
-      toast.error("Payment initiation failed");
+      const errorMessage = error?.response?.data?.message || error?.message || "Payment initiation failed";
+      toast.error(errorMessage);
     }
   };
 

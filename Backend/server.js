@@ -19,17 +19,19 @@ connectCloudinary();
 
 const app = express();
 app.use(cors());
-app.use(express.json());
 
-// Stripe webhook route
-
+// Stripe webhook route - MUST be before express.json() middleware
+// Stripe webhooks require raw body for signature verification
 app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), stripeWebhook);
-// Clerk middleware
-app.use(express.json());
-app.use(clerkMiddleware());
 
-// Clerk webhooks route
+// Clerk webhooks route - MUST be before express.json() middleware
 app.post('/api/clerk', express.raw({ type: 'application/json' }), clerkWebhooks);
+
+// Parse JSON bodies for all other routes
+app.use(express.json());
+
+// Clerk middleware
+app.use(clerkMiddleware());
 
 app.get('/', (req, res) => 
   res.send('Backend connected successfully!')

@@ -2,11 +2,25 @@ import Stripe from "stripe";
 import Booking from "../models/Booking.js";
 
 export const stripeWebhook = async (request, response) => {
-
     // Initialize Stripe with your secret key
+    if (!process.env.STRIPE_SECRET_KEY) {
+        console.error('STRIPE_SECRET_KEY is not set in environment variables');
+        return response.status(500).send('Webhook configuration error');
+    }
+
+    if (!process.env.STRIPE_WEBHOOK_SECRET) {
+        console.error('STRIPE_WEBHOOK_SECRET is not set in environment variables');
+        return response.status(500).send('Webhook configuration error');
+    }
+
     const stripeInstance = new Stripe(process.env.STRIPE_SECRET_KEY);
 
     const sig = request.headers['stripe-signature'];
+    if (!sig) {
+        console.error('⚠️  Stripe signature header is missing');
+        return response.status(400).send('Webhook Error: Missing stripe-signature header');
+    }
+
     let event;
 
     // Ensure we use the raw request body bytes for signature verification.
@@ -16,7 +30,7 @@ export const stripeWebhook = async (request, response) => {
     try {
         event = stripeInstance.webhooks.constructEvent(rawBody, sig, process.env.STRIPE_WEBHOOK_SECRET);
     } catch (err) {
-        console.log(`⚠️  Webhook signature verification failed.`, err.message);
+        console.error(`⚠️  Webhook signature verification failed.`, err.message);
         return response.status(400).send(`Webhook Error: ${err.message}`);
     }
 
@@ -28,10 +42,21 @@ export const stripeWebhook = async (request, response) => {
 
             if (!bookingId) {
                 console.warn('checkout.session.completed received but no bookingId in metadata', { sessionId: session.id, metadata: session.metadata });
-            } else {
-                await Booking.findByIdAndUpdate(bookingId, { isPaid: true, paymentStatus: 'stripe' });
-                console.log(`Booking ${bookingId} marked as paid (checkout.session.completed)`);
+                return response.status(200).json({ received: true });
             }
+            
+            const booking = await Booking.findByIdAndUpdate(
+                bookingId, 
+                { isPaid: true, paymentStatus: 'stripe' },
+                { new: true }
+            );
+            
+            if (!booking) {
+                console.error(`Booking ${bookingId} not found when processing webhook`);
+                return response.status(200).json({ received: true });
+            }
+            
+            console.log(`Booking ${bookingId} marked as paid (checkout.session.completed)`);
 
         } else if (event.type === 'payment_intent.succeeded') {
             // Fallback: try to find the Checkout Session linked to this PaymentIntent
@@ -48,10 +73,21 @@ export const stripeWebhook = async (request, response) => {
 
             if (!bookingId) {
                 console.warn('payment_intent.succeeded received but bookingId not found', { paymentIntentId, sessionMetadata: session?.metadata, paymentIntentMetadata: paymentIntent?.metadata });
-            } else {
-                await Booking.findByIdAndUpdate(bookingId, { isPaid: true, paymentStatus: 'stripe' });
-                console.log(`Booking ${bookingId} marked as paid (payment_intent.succeeded)`);
+                return response.status(200).json({ received: true });
             }
+            
+            const booking = await Booking.findByIdAndUpdate(
+                bookingId, 
+                { isPaid: true, paymentStatus: 'stripe' },
+                { new: true }
+            );
+            
+            if (!booking) {
+                console.error(`Booking ${bookingId} not found when processing webhook`);
+                return response.status(200).json({ received: true });
+            }
+            
+            console.log(`Booking ${bookingId} marked as paid (payment_intent.succeeded)`);
 
         } else {
             console.log(`Unhandled event type ${event.type}`);
