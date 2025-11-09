@@ -2,6 +2,7 @@ import Title from "../components/Title";
 import { assets } from "../assets/assets";
 import { useEffect, useState } from "react";
 import { useAppContext } from "../context/AppContext";
+import toast from "react-hot-toast";
 
 const MyBookings = () => {
   const { user, axios, getToken } = useAppContext();
@@ -27,6 +28,28 @@ const MyBookings = () => {
       fetchUserBookings();
     }
   }, [user]);
+
+  const handlePayment = async (bookingId) => {
+    try {
+      const { data } = await axios.post(
+        "/api/booking/stripe-payment",
+        { bookingId },
+        {
+          headers: {
+            Authorization: `Bearer ${await getToken()}`,
+          },
+        }
+      );
+      if (data.success) {
+        window.location.href = data.url;
+      } else {
+        toast.error("Error initiating payment");
+      }
+    } catch (error) {
+      console.error("Payment initiation error:", error);
+      toast.error("Payment initiation failed");
+    }
+  };
 
   return (
     <div className="py-28 md:pb-35 px-4 md:pt-32 lg:px-24 xl:px-32">
@@ -114,7 +137,7 @@ const MyBookings = () => {
                 {booking.paymentStatus === "paid" ? "✅ Paid" : "❌ Unpaid"}
               </p> */}
               {!booking.isPaid && (
-                <button className="mt-4 px-4 py-1.5 text-xs border border-gray-300 rounded-full hover:bg-gray-50 transition-all cursor-pointer">
+                <button onClick={() => handlePayment(booking._id)} className="mt-4 px-4 py-1.5 text-xs border border-gray-300 rounded-full hover:bg-gray-50 transition-all cursor-pointer">
                   Pay Now
                 </button>
               )}

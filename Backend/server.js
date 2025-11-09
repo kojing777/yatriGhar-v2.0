@@ -2,6 +2,7 @@ import express from 'express';
 import 'dotenv/config';
 import cors from 'cors';
 import connectDB from './configs/db.js';
+import { stripeWebhook } from './controllers/stripeWebhook.js';
 import { clerkMiddleware } from '@clerk/express';
 import clerkWebhooks from './controllers/ClerkWebHooks.js';
 import userRouter from './routes/userRoutes.js';
@@ -20,6 +21,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Stripe webhook route
+
+app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), stripeWebhook);
 // Clerk middleware
 app.use(express.json());
 app.use(clerkMiddleware());

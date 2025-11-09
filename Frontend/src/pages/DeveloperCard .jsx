@@ -1,4 +1,7 @@
 import React, { useRef, useState } from "react";
+import dov1 from "/kaley.jpg";
+import dov2 from "/gorey.jpg";
+import dov3 from "/me.jpg";
 
 const DeveloperCard = ({ name, role, description, image, github, linkedin, twitter }) => {
   const [visible, setVisible] = useState(false);
@@ -110,25 +113,25 @@ export default function AboutUs() {
           name="Bijaya Tamang"
           role="Mern Stack Developer"
           description="Building seamless hotel booking experiences with modern design and efficient backend logic."
-          image="https://images.unsplash.com/photo-1603415526960-f7e0328d4b1b?auto=format&fit=crop&w=400&q=80"
+          image={dov3}
           github="https://github.com/kojing777"
           linkedin="#"
           twitter="#"
         />
         <DeveloperCard
           name="Prayuz Gamal"
-          role="Frontend Developer"
+          role="Quality Assurance Engineer"
           description="Designing user-centric interfaces with a focus on performance, accessibility, and aesthetics."
-          image="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=400&q=80"
+          image={dov1}
           github="https://github.com/Prayuzzzzzz"
           linkedin="#"
           twitter="#"
         />
         <DeveloperCard
           name="Sachin Magar"
-          role="Quality Assurance Engineer"
+          role="Frontend Developer"
           description="Ensuring reliability, data security, and scalability for all YatriGhar backend systems."
-          image="https://images.unsplash.com/photo-1541532713592-79a0317b6b77?auto=format&fit=crop&w=400&q=80"
+          image={dov2}
           github="https://github.com/sujanmagr"
           linkedin="#"
           twitter="#"
