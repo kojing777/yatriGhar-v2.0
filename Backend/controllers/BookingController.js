@@ -192,8 +192,8 @@ export const stripePayment = async (req, res) => {
         const session = await stripeInstance.checkout.sessions.create({
             line_items,
             mode: 'payment',
-            success_url: `${origin}/loader/my-bookings`,
-            cancel_url: `${origin}/my-bookings`,
+            success_url: `${origin}/loader/my-bookings?payment=success`,
+            cancel_url: `${origin}/my-bookings?payment=cancelled`,
             // Attach bookingId to the Checkout Session metadata AND to the underlying PaymentIntent
             metadata: {
                 bookingId: bookingIdString,

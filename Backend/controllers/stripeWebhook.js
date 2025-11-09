@@ -24,8 +24,18 @@ export const stripeWebhook = async (request, response) => {
     let event;
 
     // Ensure we use the raw request body bytes for signature verification.
-    // express.raw puts a Buffer on req.body for routes using express.raw().
-    const rawBody = Buffer.isBuffer(request.body) ? request.body : Buffer.from(JSON.stringify(request.body));
+    // express.raw({ type: 'application/json' }) should give us a Buffer
+    // But if it's not a Buffer, we need to handle it properly
+    let rawBody;
+    if (Buffer.isBuffer(request.body)) {
+        rawBody = request.body;
+    } else if (typeof request.body === 'string') {
+        rawBody = Buffer.from(request.body, 'utf8');
+    } else {
+        // This shouldn't happen with express.raw, but handle it anyway
+        console.error('⚠️ Request body is not a Buffer or string:', typeof request.body);
+        rawBody = Buffer.from(JSON.stringify(request.body), 'utf8');
+    }
 
     try {
         event = stripeInstance.webhooks.constructEvent(rawBody, sig, process.env.STRIPE_WEBHOOK_SECRET);

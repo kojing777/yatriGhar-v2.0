@@ -29,6 +29,28 @@ const MyBookings = () => {
     }
   }, [user]);
 
+  // Refresh bookings when component becomes visible (e.g., returning from payment)
+  useEffect(() => {
+    const handleFocus = () => {
+      if (user) {
+        fetchUserBookings();
+      }
+    };
+
+    // Refresh when window gains focus (user returns from Stripe)
+    window.addEventListener('focus', handleFocus);
+    
+    // Also refresh on mount if coming from payment
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('payment') === 'success') {
+      fetchUserBookings();
+    }
+
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+    };
+  }, [user]);
+
   const handlePayment = async (bookingId) => {
     try {
       const token = await getToken();
