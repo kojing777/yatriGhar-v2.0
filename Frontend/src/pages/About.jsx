@@ -1,5 +1,6 @@
 import React from "react";
 import DeveloperCard from "../pages/DeveloperCard ";
+import Title from "../components/Title";
 
 export default function About() {
   return (
@@ -14,14 +15,9 @@ export default function About() {
       <div className="bg-slate-50 min-h-screen mt-6 py-20 px-6 md:px-16 lg:px-24">
         {/* Header Section */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-4">
-            About <span className="text-indigo-600">YatriGhar</span>
-          </h2>
-          <p className="text-slate-600 text-lg leading-relaxed">
-            YatriGhar is a modern travel and hotel booking platform designed to connect travelers
-            with the most comfortable and affordable stays. We’re passionate about creating seamless
-            digital travel experiences that inspire exploration and connection.
-          </p>
+          <Title title="About YatriGhar"
+          subTitle="Connecting Travelers with Comfort" />
+         
         </div>
 
         {/* Mission & Vision Section */}
