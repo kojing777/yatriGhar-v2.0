@@ -8,13 +8,7 @@ const bookingSchema = new mongoose.Schema({
     checkOutDate: { type: Date, required: true },
     totalPrice: { type: Number, required: true },
     guest: { type: Number, required: true },
-    // payment method chosen by the user (e.g. 'Pay at Hotel', 'Online')
     paymentMethod: { type: String, default: 'Pay at Hotel' },
-    status: {
-        type: String,
-        enum: ['Pending', 'Confirmed', 'Cancelled'],
-        default: 'Pending'
-    },
     paymentStatus: {
         type: String,
         enum: ['Pending', 'Paid', 'stripe'],
