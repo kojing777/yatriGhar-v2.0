@@ -89,13 +89,70 @@ export const createBooking = async (req, res) => {
                     from: process.env.SENDER_EMAIL,
                     to: req.user.email,
                     subject: 'Booking Confirmation',
-                    html: `<h1>Tour Booking Details</h1>
-                           <p>Dear ${req.user.username},</p>
-                           <p>Your booking for room ${booking._id} from ${checkInDate} to ${checkOutDate} has been confirmed.</p>
-                           <p>Total Price: $${totalPrice}</p>
-                           <p>Thank you for choosing our service!</p>
-                           <p>Best regards,</p>
-                           <p>YatriGhar Team</p>`
+                                            html: `
+                                                <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; color: #111827;">
+                                                    <div style="max-width:600px;margin:0 auto;padding:24px;background:#ffffff;border-radius:8px;box-shadow:0 4px 20px rgba(2,6,23,0.08);">
+                                                        <div style="text-align:center;padding-bottom:12px;">
+                                                            <img src="${process.env.FRONTEND_URL || ''}/assets/yatri.png" alt="YatriGhar" style="height:56px;object-fit:contain;" />
+                                                        </div>
+                                                        <h2 style="color:#0f172a;margin:0 0 8px;font-size:20px">Booking Confirmed — Thank you, ${req.user.username}!</h2>
+                                                        <p style="margin:0 0 16px;color:#475569;line-height:1.5">We're delighted to confirm your booking. Below are the key details — we've saved everything for you and look forward to making your stay memorable.</p>
+
+                                                        <table style="width:100%;border-collapse:collapse;margin-bottom:18px;font-size:14px;color:#334155">
+                                                            <tr>
+                                                                <td style="padding:8px 0;font-weight:600;width:40%">Booking ID</td>
+                                                                <td style="padding:8px 0">${booking._id}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="padding:8px 0;font-weight:600">Hotel</td>
+                                                                <td style="padding:8px 0">${roomData.hotel?.name || 'N/A'}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="padding:8px 0;font-weight:600">Room</td>
+                                                                <td style="padding:8px 0">${roomData.name || 'N/A'}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="padding:8px 0;font-weight:600">Check-in</td>
+                                                                <td style="padding:8px 0">${new Date(checkInDate).toDateString()}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="padding:8px 0;font-weight:600">Check-out</td>
+                                                                <td style="padding:8px 0">${new Date(checkOutDate).toDateString()}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="padding:8px 0;font-weight:600">Guests</td>
+                                                                <td style="padding:8px 0">${guests}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="padding:8px 0;font-weight:600">Total Price</td>
+                                                                <td style="padding:8px 0">$${totalPrice}</td>
+                                                            </tr>
+                                                        </table>
+
+                                                        <p style="margin:0 0 18px;color:#334155">A sweet note from our team:</p>
+                                                        <blockquote style="margin:0 0 18px;padding:12px 16px;background:#f8fafc;border-left:4px solid #f59e0b;color:#0f172a">We're thrilled to be part of your journey. Travel safe, soak up the local flavors, and let us take care of the rest — we hope this trip leaves you with wonderful memories.</blockquote>
+
+                                                        <div style="text-align:center;margin-top:20px">
+                                                            <a href="${process.env.FRONTEND_URL || 'https://yourdomain.com'}/my-bookings" style="display:inline-block;padding:10px 18px;background:#f59e0b;color:#ffffff;border-radius:8px;text-decoration:none;font-weight:600">View your booking</a>
+                                                        </div>
+
+                                                        <hr style="border:none;border-top:1px solid #e6edf3;margin:20px 0" />
+
+                                                        <div style="font-size:13px;color:#64748b;line-height:1.6">
+                                                            <p style="margin:0 0 8px">Need help? Contact our support team:</p>
+                                                            <p style="margin:0">Email: <a href="mailto:${process.env.SUPPORT_EMAIL || process.env.SENDER_EMAIL}" style="color:#0f172a;text-decoration:none">${process.env.SUPPORT_EMAIL || process.env.SENDER_EMAIL}</a> | Phone: <a href="tel:${process.env.SUPPORT_PHONE || '+1-555-0100'}" style="color:#0f172a;text-decoration:none">${process.env.SUPPORT_PHONE || '+1-555-0100'}</a></p>
+                                                            <p style="margin:12px 0 0;color:#94a3b8">We're here for you 24/7. If anything needs changing, reply to this email or visit your bookings page.</p>
+                                                        </div>
+
+                                                        <p style="margin:18px 0 0;color:#94a3b8;font-size:12px">Warmly,<br/>The YatriGhar Team</p>
+                                                    </div>
+
+                                                    <div style="max-width:600px;margin:16px auto 0;text-align:center;font-size:12px;color:#94a3b8">
+                                                        <p style="margin:6px 0">YatriGhar · 123 Traveler Lane · Your City</p>
+                                                        <p style="margin:6px 0">If you didn't make this booking, please <a href="mailto:${process.env.SUPPORT_EMAIL || process.env.SENDER_EMAIL}" style="color:#0f172a">contact us</a> immediately.</p>
+                                                    </div>
+                                                </div>
+                                            `
                 };
                 await transporter.sendMail(mailOptions);
                 console.log(`✅ Confirmation email sent to ${req.user.email}`);
