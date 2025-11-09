@@ -4,6 +4,7 @@ import { MdEditCalendar } from "react-icons/md";
 import { FaSearch } from "react-icons/fa";
 import { useAppContext } from "../context/AppContext";
 
+
 const Hero = () => {
   const { navigate, setSearchedCities, axios, getToken } = useAppContext();
   const [destinations, setDestinations] = useState("");
@@ -44,8 +45,8 @@ const Hero = () => {
           loop
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
-          src="/src/assets/vid3.mp4"
-          poster="/src/assets/nepal1.jpg"
+          src="/vid3.mp4"
+          poster="/nepal1.jpg"
           aria-hidden="true"
         />
         {/* Gradient Overlays */}
