@@ -124,7 +124,7 @@ export const createBooking = async (req, res) => {
                                                             </tr>
                                                             <tr>
                                                                 <td style="padding:8px 0;font-weight:600">Total Price</td>
-                                                                <td style="padding:8px 0">$${totalPrice}</td>
+                                                                <td style="padding:8px 0">Rs. ${totalPrice}</td>
                                                             </tr>
                                                         </table>
 
