@@ -36,6 +36,8 @@ const Hero = () => {
   };
 
   return (
+
+    
     <div className='relative flex flex-col items-start justify-center px-4 sm:px-6 md:px-16 lg:px-24 xl:px-32 text-white h-screen bg-black overflow-hidden'>
       {/* Video Background with Effects */}
       <div className="absolute inset-0">
@@ -50,7 +52,7 @@ const Hero = () => {
           aria-hidden="true"
         />
         {/* Gradient Overlays */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-black/30 to-black/20"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-black/30 to-black/40"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
         {/* Subtle Grain Effect */}
         <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg viewBox=%220 0 400 400%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%221%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22 opacity=%220.03%22/%3E%3C/svg%3E')] opacity-30"></div>

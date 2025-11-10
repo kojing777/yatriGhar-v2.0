@@ -14,7 +14,6 @@ if (!process.env.SENDER_EMAIL) {
 }
 
 // Create transporter with proper Brevo SMTP configuration
-// Use port 465 (SSL) if SMTP_PORT is set to 465, otherwise use 587 (TLS)
 const smtpPort = parseInt(process.env.SMTP_PORT) || 587;
 const useSSL = smtpPort === 465;
 
@@ -24,12 +23,12 @@ const transporter = nodemailer.createTransport({
     secure: useSSL, // true for 465, false for other ports
     auth: {
         user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS, // This should be your SMTP key, not account password
+        pass: process.env.SMTP_PASS,
     },
-    requireTLS: !useSSL, // Force TLS for port 587, not needed for SSL port 465
-    connectionTimeout: 10000, // 10 seconds connection timeout
-    greetingTimeout: 10000, // 10 seconds greeting timeout
-    socketTimeout: 10000, // 10 seconds socket timeout
+    requireTLS: !useSSL,
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 10000,
     tls: {
         // Do not fail on invalid certs
         rejectUnauthorized: false,
@@ -39,12 +38,11 @@ const transporter = nodemailer.createTransport({
     pool: true, // Use connection pooling
     maxConnections: 1,
     maxMessages: 100,
-    debug: process.env.NODE_ENV === 'development', // Enable debug in development
-    logger: process.env.NODE_ENV === 'development' // Log in development
+    debug: process.env.NODE_ENV === 'development', 
+    logger: process.env.NODE_ENV === 'development' 
 });
 
 // Verify transporter configuration (non-blocking, async)
-// This runs in the background and won't block server startup
 transporter.verify(function (error, success) {
     if (error) {
         console.error('❌ Nodemailer transporter verification failed:');

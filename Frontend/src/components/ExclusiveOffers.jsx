@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Title from "./Title";
 import { exclusiveOffers } from "../assets/assets";
 import { FaChevronRight } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../context/AppContext";
 
 const ExclusiveOffers = () => {
   const [mounted, setMounted] = useState(false);
@@ -48,6 +50,21 @@ const ExclusiveOffers = () => {
     const t = setTimeout(() => setMounted(true), 40);
     return () => clearTimeout(t);
   }, []);
+
+  const navigate = useNavigate();
+  const { rooms } = useAppContext();
+
+  const handleViewOffer = () => {
+    // Navigate to a random room from all rooms
+    if (rooms && rooms.length > 0) {
+      const randomRoom = rooms[Math.floor(Math.random() * rooms.length)];
+      navigate(`/rooms/${randomRoom._id}`);
+      scrollTo(0, 0);
+      return;
+    }
+    // fallback to all rooms page
+    navigate("/rooms");
+  };
 
   // Format number with leading zero
   const formatNumber = (num) => {
@@ -106,6 +123,7 @@ const ExclusiveOffers = () => {
 
               <div className="mt-6 flex items-center justify-between">
                 <button
+                  onClick={handleViewOffer}
                   className="bg-white text-gray-900 px-4 py-2 rounded-md font-medium duration-500 hover:scale-105 transition-transform"
                   aria-label={`View offer: ${item.title}`}
                 >
