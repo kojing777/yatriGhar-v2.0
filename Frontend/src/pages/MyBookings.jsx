@@ -209,7 +209,7 @@ const MyBookings = () => {
                             }
                             existing.unshift(newReview);
                             localStorage.setItem(reviewsKey, JSON.stringify(existing));
-                            toast.success('Review saved locally');
+                            toast.success('Review saved');
                             setActiveReviewBooking(null);
                             setReviewText('');
                           } catch (err) {
