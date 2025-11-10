@@ -139,7 +139,7 @@ export const createBooking = async (req, res) => {
 
                                                         <div style="font-size:13px;color:#64748b;line-height:1.6">
                                                             <p style="margin:0 0 8px">Need help? Contact our support team:</p>
-                                                            <p style="margin:0">Email: <a href="mailto:${process.env.SUPPORT_EMAIL || process.env.SENDER_EMAIL}" style="color:#0f172a;text-decoration:none">${process.env.SUPPORT_EMAIL || process.env.SENDER_EMAIL}</a> | Phone: <a href="tel:${process.env.SUPPORT_PHONE || '+1-555-0100'}" style="color:#0f172a;text-decoration:none">${process.env.SUPPORT_PHONE || '+1-555-0100'}</a></p>
+                                                            <p style="margin:0">Email: <a href="mailto:${process.env.SUPPORT_EMAIL || process.env.SENDER_EMAIL}" style="color:#0f172a;text-decoration:none">${process.env.SUPPORT_EMAIL || process.env.SENDER_EMAIL}</a> | Phone: <a href="tel:${process.env.SUPPORT_PHONE || '+1-555-0100'}" style="color:#0f172a;text-decoration:none">${process.env.SUPPORT_PHONE || '+977 9813254153'}</a></p>
                                                             <p style="margin:12px 0 0;color:#94a3b8">We're here for you 24/7. If anything needs changing, reply to this email or visit your bookings page.</p>
                                                         </div>
 
