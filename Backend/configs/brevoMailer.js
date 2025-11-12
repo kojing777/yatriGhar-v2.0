@@ -1,4 +1,3 @@
-// utils/brevoMailer.js
 import axios from "axios";
 
 export const sendEmail = async ({ to, subject, html, text }) => {
