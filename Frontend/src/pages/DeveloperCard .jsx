@@ -121,7 +121,7 @@ export default function AboutUs() {
         <DeveloperCard
           name="Prayuz Gamal"
           role="Quality Assurance Engineer"
-          description="Designing user-centric interfaces with a focus on performance, accessibility, and aesthetics."
+          description="Ensuring reliability, data security, and scalability for all YatriGhar backend systems."
           image={dov1}
           github="https://github.com/Prayuzzzzzz"
           linkedin="#"
@@ -130,7 +130,7 @@ export default function AboutUs() {
         <DeveloperCard
           name="Sachin Magar"
           role="Frontend Developer"
-          description="Ensuring reliability, data security, and scalability for all YatriGhar backend systems."
+          description="Designing user-centric interfaces with a focus on performance, accessibility, and aesthetics."
           image={dov2}
           github="https://github.com/sujanmagr"
           linkedin="#"
