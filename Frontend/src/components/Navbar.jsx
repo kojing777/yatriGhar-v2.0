@@ -107,19 +107,6 @@ const Navbar = () => {
           </Link>
         ))}
 
-        {user && (
-          <button
-            onClick={() =>
-              isOwner ? navigate("/owner") : setShowHotelReg(true)
-            }
-            className={`border px-4 py-1 text-sm font-light rounded-full cursor-pointer ${
-              isScrolled ? "text-black" : "text-white"
-            } transition-all`}
-          >
-            {isOwner ? "Dashboard" : "List your hotel"}
-          </button>
-        )}
-
         {/* Demo Mode - Direct Access to Owner Dashboard */}
         {/* <button
           onClick={() => navigate("/owner")}
@@ -133,23 +120,34 @@ const Navbar = () => {
       {/* Desktop Right */}
       <div className="hidden md:flex items-center gap-3">
         {user ? (
-          <div className="transform scale-125 hover:scale-125 transition-transform duration-300">
-            <UserButton
-              appearance={{
-                elements: {
-                  avatarBox: "rounded-full border-2 border-gray-500 shadow-md",
-                },
-              }}
+          <>
+            <button
+              onClick={() =>
+                isOwner ? navigate("/owner") : setShowHotelReg(true)
+              }
+              className="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 text-sm font-medium rounded-full cursor-pointer transition-all"
             >
-              <UserButton.MenuItems>
-                <UserButton.Action
-                  label="My Bookings"
-                  labelIcon={<BookIcon />}
-                  onClick={() => navigate("/my-bookings")}
-                />
-              </UserButton.MenuItems>
-            </UserButton>
-          </div>
+              {isOwner ? "Dashboard" : "Become a Owner"}
+            </button>
+            <span className="text- px-1 py-0.5">|</span>
+            <div className="transform scale-125 hover:scale-125 transition-transform duration-300">
+              <UserButton
+                appearance={{
+                  elements: {
+                    avatarBox: "rounded-full border-2 border-gray-500 shadow-md",
+                  },
+                }}
+              >
+                <UserButton.MenuItems>
+                  <UserButton.Action
+                    label="My Bookings"
+                    labelIcon={<BookIcon />}
+                    onClick={() => navigate("/my-bookings")}
+                  />
+                </UserButton.MenuItems>
+              </UserButton>
+            </div>
+          </>
         ) : (
           <button
             onClick={openSignIn}
@@ -219,7 +217,7 @@ const Navbar = () => {
             }
             className="border px-4 py-1 text-sm font-light rounded-full cursor-pointer transition-all"
           >
-            {isOwner ? "Dashboard" : "List your hotel"}
+            {isOwner ? "Dashboard" : "Become a Owner"}
           </button>
         )}
 
