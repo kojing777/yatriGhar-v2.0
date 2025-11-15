@@ -11,6 +11,7 @@ import hotelRouter from './routes/hotelRoute.js';
 import connectCloudinary from './configs/cloudinary.js';
 import roomRouter from './routes/roomRoute.js';
 import bookingRouter from './routes/bookingRoute.js';
+import newsLetterRouter from './routes/newsLetterRoute.js';
  
 // connect to MongoDB
 connectDB();
@@ -60,25 +61,23 @@ app.get('/', (req, res) =>
   res.send('Backend connected successfully!')
 );
 
-// Test route to send an email via Brevo API helper
-app.post('/send-test-email', async (req, res) => {
+// Test route to send newsletter test email via Brevo API
+app.post('/test-newsletter-email', async (req, res) => {
   try {
-    // Allow overriding via request body for quick testing
-    const { to = 'testuser@example.com', subject, html, text } = req.body || {};
+    const { to = 'testuser@example.com' } = req.body || {};
 
     await sendEmail({
       to,
-      subject: subject || '🎉 Test Email from Backend via Brevo API',
-      html: html || '<h1>Hello from Brevo API!</h1><p>This is a test email.</p>',
-      text: text || 'Hello from Brevo API!'
+      subject: '🧪 Test Newsletter Email from YatriGhar',
+      html: '<h1>Test Newsletter Email</h1><p>This is a test email to verify newsletter functionality.</p>'
     });
 
-    res.json({ success: true, message: 'Email sent successfully!' });
+    res.json({ success: true, message: 'Test newsletter email sent successfully!' });
   } catch (error) {
-    console.error('send-test-email error:', error?.response?.data || error?.message || error);
+    console.error('test-newsletter-email error:', error?.response?.data || error?.message || error);
     res.status(500).json({
       success: false,
-      message: 'Failed to send email',
+      message: 'Failed to send test newsletter email',
       error: error?.response?.data || error?.message || String(error)
     });
   }
@@ -99,6 +98,7 @@ app.use('/api/user', userRouter);
 app.use('/api/hotels', hotelRouter);
 app.use('/api/rooms', roomRouter);
 app.use('/api/booking', bookingRouter);
+app.use('/api/newsletter', newsLetterRouter);
 
 const PORT = process.env.PORT || 4444;
 app.listen(PORT, () => {

@@ -1,21 +1,34 @@
 import React, { useState } from "react";
 import { LiaBoxOpenSolid } from "react-icons/lia";
 import { FaRegHand } from "react-icons/fa6";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 
 const NewsLetter = () => {
   const [email, setEmail] = useState("");
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubscribed(true);
+
+    try {
+      const response = await axios.post('/api/newsletter/subscribe', { email });
+
+      if (response.data.success) {
+        setIsSubscribed(true);
+        setEmail("");
+        toast.success("Successfully subscribed! Check your email for exclusive offers.");
+      } else {
+        toast.error(response.data.message || "Failed to subscribe");
+      }
+    } catch (error) {
+      console.error('Newsletter subscription error:', error);
+      toast.error(error.response?.data?.message || "Failed to subscribe. Please try again.");
+    } finally {
       setIsLoading(false);
-      setEmail("");
-    }, 1500);
+    }
   };
 
   return (
