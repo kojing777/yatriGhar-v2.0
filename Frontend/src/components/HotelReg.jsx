@@ -61,7 +61,7 @@ const HotelReg = () => {
             src={assets.closeIcon}
             onClick={() => setShowHotelReg(false)}
             alt="close icon"
-            className="absolute top-4 right-4 h-5 w-5 cursor-pointer hover:scale-110 hover:rotate-30 transition-all duration-300"
+            className="absolute top-4 right-4 h-5 w-5 cursor-pointer hover:scale-110 transition-all duration-300"
           />
 
           <p className="text-3xl font-bold text-amber-600 mt-4">
